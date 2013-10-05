@@ -2,11 +2,11 @@
 
 Ext.Loader.setConfig({enabled: true});
 
-var onLoad = function (self, eOpts ) {
-	onTypeChange(self, self.value, null, null);
+var onEntryLoad = function (self, eOpts ) {
+	onEntryTypeChange(self, self.value, null, null);
 }
 
-var onTypeChange = function (self, newValue, oldValue, eOpts) {
+var onEntryTypeChange = function (self, newValue, oldValue, eOpts) {
 	if (newValue == null || newValue == "" || oldValue == newValue) {
 		return;
 	}
@@ -93,8 +93,8 @@ Ext.define('moneta.model.Entry', {
 					valueField: 'id', 
 					displayField: 'name',
 					listeners: {
-						change: onTypeChange,
-						afterrender: onLoad
+						change: onEntryTypeChange,
+						afterrender: onEntryLoad
 					}
 				},
 			},		
