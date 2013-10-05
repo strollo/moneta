@@ -29,7 +29,7 @@ Ext.define("moneta.Globals.handlers", {
 	singleton: true,
 	
 	onDestroy: function (self, eOpts) {
-		moneta.Globals.fn.clog('Destroying component: [' + self.id + ']');
+		moneta.Globals.fn.clog('Destroying component: [' + self.id + ']' + ' of type: ' + (self.$className || 'undef'));
 	},
 	onHide: function (self, eOpts) {
 		moneta.Globals.fn.clog('Hiding component: [' + self.id + ']');
