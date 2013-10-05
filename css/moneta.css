@@ -1,0 +1,83 @@
+/* patch for border in frame panel */
+.x-window-body-default { background: 0; }
+
+
+/* custom icons */
+.x-tool-cancel{left: 0; background-image: url('../icons/clear.png') !important;}
+.ico-accounts-bank {left: 0; background-image: url('../icons/accounts_bank.png') !important;}
+.ico-accounts-creditcards{left: 0; background-image: url('../icons/credit_cards.png') !important;}
+.ico-accounts-creditcard{left: 0; background-image: url('../icons/credit_card.png') !important;}
+.ico-accounts-opening {left: 0; background-image: url('../icons/opening-balance.png') !important;}
+.ico-accounts-profit {left: 0; background-image: url('../icons/profit.png') !important;}
+.ico-accounts-incomes {left: 0; background-image: url('../icons/incomes.png') !important;}
+.ico-accounts-outgoings {left: 0; background-image: url('../icons/expenses.png') !important;}
+.ico-accounts-intransfer {left: 0; background-image: url('../icons/inTransfer.png') !important;}
+.ico-accounts-loans {left: 0; background-image: url('../icons/loans.png') !important;}
+.ico-accounts-debts {left: 0; background-image: url('../icons/debts.png') !important;}
+.ico-accounts-persons {left: 0; background-image: url('../icons/users.png') !important;}
+
+.ico-refresh {left: 0; background-image: url('../icons/refresh.png') !important;}
+
+
+.ico-accounts-creditpayments{left: 0; background-image: url('../icons/ccpays.png') !important;}
+.ico-accounts-outtransfer {left: 0; background-image: url('../icons/outTransfer.png') !important;}
+.ico-accounts-expenses{left: 0; background-image: url('../icons/expenses.png') !important;}
+.ico-accounts-details{left: 0; background-image: url('../icons/details.png') !important;}
+
+.ico-accounts-summary{left: 0; background-image: url('../icons/summary.png') !important;}
+
+.ico-plus{left: 0; background-image: url('../icons/plus.png') !important;}
+.ico-minus{left: 0; background-image: url('../icons/minus.png') !important;}
+
+
+/* custom chart background */
+.wnd-chart-style { background: #FFFFDD !important; }
+
+
+/* enables multiline rows */
+/*
+.x-grid-row .x-grid-cell-inner {
+    white-space: normal;
+}
+*/
+/*
+.x-grid-row-over .x-grid-cell-inner {
+    font-weight: bold;
+    white-space: normal;
+}
+*/
+
+/* the cell of editor */
+/*
+.x-border-box .x-grid-editor .x-form-text {
+    white-space: normal;
+	height: 50px;
+}*/
+
+/* custom style for status bar header (with tools). */
+.x-panel-header-custom {
+	border: 0px;
+	background-image: -webkit-linear-gradient(top, #dfe9f5, #d3e1f1);
+}
+
+.x-panel-header-custom-header-text {
+	display: none;
+	visibility: hidden;
+}
+
+
+/* 
+ * Fix for the tooltip with width not working.
+ * Taken from:
+ * http://stackoverflow.com/questions/15834689/extjs-4-2-tooltips-not-wide-enough-to-see-contents
+ */
+.x-tip {
+    width: auto !important;
+}
+.x-tip-body span {
+    width: auto !important;
+}
+
+.x-grid-description {
+	background: #FFFFDD !important;
+}
