@@ -219,6 +219,12 @@ class ActivityMgr {
 		$limit = null;
 		$sortCol = null;
 		$sortDir = null;
+		
+		$reconciliationType = 7;
+		$result = ProjectMgr::executeQuery("SELECT id FROM activity_types where name='Reconciliation'");
+		$reconciliationType = $result['id'];
+		$r = mysql_fetch_assoc($result);
+		$reconciliationType = $r['id'];
 	
 		if (isset($get)) {
 			$start = Utils::getParam($get, 'start') or null;
@@ -263,7 +269,8 @@ class ActivityMgr {
 		$rows = array();
 		$rows['data'] = array();
 		while($r = mysql_fetch_assoc($result)) {
-			$rows['data'][] = $r;
+			$r['reconciliationType'] = $reconciliationType;
+			$rows['data'][] = $r;			
 		}
 		return $rows['data'];
 	}

@@ -21,6 +21,11 @@ var onTypeChange = function (self, newValue, oldValue, eOpts) {
 	_from.store.load(
 	{
 		callback: function() {
+			if (_from.store == null) {
+				_from.enable();
+				return;
+			}
+		
 			if (_from.store.data.items.length != 0) {
 				_from.enable();
 			} else {
@@ -31,6 +36,11 @@ var onTypeChange = function (self, newValue, oldValue, eOpts) {
 	_to.store.load(
 	{
 		callback: function() {
+			if (_to.store == null) {
+				_to.enable();
+				return;
+			}
+		
 			if (_to.store.data.items.length != 0) {										
 				_to.enable();
 			} else {

@@ -285,6 +285,8 @@ Ext.define('moneta.widgets.SmartGrid',
 			moneta.Globals.fn.clog('[GRID] External editing');
 			
 			this.addListener('itemcontextmenu', function handleContextMenu(grid, record, item, index, event) {
+				// To disable standard menu
+				event.preventDefault();
 				moneta.Globals.fn.clog('[GRID] Selected item');
 				_currGrid = me;
 				x = event.browserEvent.clientX;

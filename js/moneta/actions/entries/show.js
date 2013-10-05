@@ -40,7 +40,7 @@ function showDetails(activityType, accountID, _title) {
 		frame: false,
 		border: 1,
 	});
-	var win = Ext.create('');
+	var win = moneta.widgets.ToggableWindow.get(moneta.Globals.id.UI_WIN_ACCOUNTS);
 	if (!win) {
 		return;
 	}

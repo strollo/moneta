@@ -6,20 +6,14 @@ Ext.Loader.setConfig({enabled: true});
  * notice: if the ledger is null the global value of type is returned.
  */
 function showReconciliations() {
-	// The panel that will contain the grid
-	container = Ext.create('Ext.panel.Panel', {
-		id: 'moneta.widgets.wnAccount.grid',
-		layout: 'fit',
-		frame: false,
-		border: 1,
-	});
 	var container = Ext.create('Ext.window.Window', {
-		width: 400,
+		title: 'Reconciliations',
+		width: 600,
 		minHeight: 400,
 		layout: 'fit',
 		resizable: true,
 		autoScroll: true,
-		renderTo: Ext.getBody(),
+		renderTo: Ext.getBody(),		
 	});
 	
 	// The target URL
@@ -41,8 +35,8 @@ function showReconciliations() {
 		frame: false,
 		border: 0,
 		store: gridStore,
-		title: 'Reconciliations',
-
+		//title: 'Reconciliations',
+		
 		plugins: [{
 			grid: grid,
 			ptype: 'rowexpander',

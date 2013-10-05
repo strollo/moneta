@@ -2,6 +2,45 @@
 
 Ext.Loader.setConfig({enabled: true});
 
+var onLoad = function (self, eOpts ) {
+	// var selectedRecord = self.ownerCt.form.getValues();
+	onTypeChange(self, self.value, null, null);
+}
+
+var onTypeChange = function (self, newValue, oldValue, eOpts) {
+	if (newValue == null || newValue == "" || oldValue == newValue) {
+		return;
+	}
+
+	var _from = Ext.getCmp('moneta.forms.field.from');
+	var _to = Ext.getCmp('moneta.forms.field.to');
+	_from.reset();
+	_to.reset();
+	_from.store.proxy.url = moneta.Globals.lists.LIST_ALLOWED_ACCTS + '?direction=from&type=' + newValue;
+	_to.store.proxy.url = moneta.Globals.lists.LIST_ALLOWED_ACCTS + '?direction=to&type=' + newValue;
+
+	_from.store.load(
+	{
+		callback: function() {
+			if (_from.store.data.items.length != 0) {
+				_from.enable();
+			} else {
+				_from.disable();
+			}
+		}
+	});
+	_to.value = null;
+	_to.store.load(
+	{
+		callback: function() {
+			if (_to.store.data.items.length != 0) {										
+				_to.enable();
+			} else {
+				_to.disable();
+			}
+		}
+	});
+}
 
 /**
  * Model for Entries (expenses, incomes, transfers...)
@@ -24,6 +63,7 @@ Ext.define('moneta.model.Reconciliation', {
 		 */
 		{name: 'from', Defaults: {skip: true}},
 		{name: 'to', Defaults: {skip: true}},
+		{name: 'reconciliationType', Defaults: {skip: true}},
 		{name: 'type', Defaults: {skip: true}},
 		{name: 'id', type: 'int', GridOptions: {skip: true}, FormOptions: {hidden: true, editor: {xtype: 'numberfield'}}},
 		
@@ -36,8 +76,9 @@ Ext.define('moneta.model.Reconciliation', {
 		},	
 		/* FIELD: Type */
 		{name: 'type_v', 
-			valuesFrom: 'type', // In editing mode the old value is taken from this field
+			valuesFrom: 'reconciliationType',
 			Defaults: {
+				hidden: true,
 				editor: {
 					id: 'moneta.forms.field.type',
 					xtype: 'smartcombobox',
@@ -45,6 +86,10 @@ Ext.define('moneta.model.Reconciliation', {
 					url: moneta.Globals.lists.LIST_ACTIVITY_TYPES, 
 					valueField: 'id', 
 					displayField: 'name',
+					listeners: {
+						change: onTypeChange,
+						afterrender: onLoad
+					}
 				},
 			},		
 			GridOptions: {
@@ -64,19 +109,21 @@ Ext.define('moneta.model.Reconciliation', {
 		},		
 		/* FIELD: Source */
 		{name: 'from_v', 
-			valuesFrom: 'from',
+			valuesFrom: 'to',
 			Defaults: {
+				
 				editor: {
 					id: 'moneta.forms.field.from',
 					xtype: 'smartcombobox',
 					fields: ['id','name'], 
 					url: moneta.Globals.lists.LIST_ALLOWED_ACCTS, 
+					editable: false,
 					valueField: 'id', 
 					displayField: 'name'
 				},
 			},			
 			GridOptions: {
-				text: "Source", 
+				text: "Payment Acct", 
 				width: 170, 
 				align: 'left', 
 				sortable: true, 
@@ -86,14 +133,16 @@ Ext.define('moneta.model.Reconciliation', {
 					return Ext.String.format('<b>{0}</b>', ((r.data.hasOwnProperty('from_v') && r.data['from_v'] != null) ? r.data['from_v'] : r.data['from']));
 				}
 			}, // endof smartgrid
-			FormOptions: {
-				fieldLabel: 'Source',
+			FormOptions: {				
+				fieldLabel: 'Payment Acct',
 			}
 		},		
 		/* FIELD: Target */
-		{name: 'to_v', type: 'string', 			
-			valuesFrom: 'to',
-			Defaults: {
+		{
+			name: 'to_v', 
+			type: 'string',			
+			valuesFrom: 'undef',
+			Defaults: {				
 				editor: {
 					id: 'moneta.forms.field.to',
 					xtype: 'smartcombobox',
@@ -149,6 +198,9 @@ Ext.define('moneta.model.Reconciliation', {
 		},
 		/* FIELD: Description */
 		{name: 'description', 
+			Defaults: {
+				hidden: true,
+			},
 			GridOptions: {
 				text: "Description", flex :2, align: 'left', sortable: false, hidden: false,
 				// Custom editor - multiline textedit 
