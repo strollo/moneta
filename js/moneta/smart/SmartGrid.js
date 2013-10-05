@@ -21,6 +21,7 @@ Ext.require([
 		this.checkEditing();
 		this.checkCRUD();
 		this.callParent(arguments);
+		this.on('beforedestroy', moneta.Globals.handlers.onDestroy);
 	}
 });
 
