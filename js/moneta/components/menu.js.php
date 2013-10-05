@@ -95,6 +95,12 @@ var mnuShowCharts = Ext.create('Ext.menu.Item', {
 		]
 	})
 });
+var mnuShowReconciliations = Ext.create('Ext.menu.Item', {
+	text: 'Reconciliations', 
+	handler: function(){ 
+		showReconciliations();
+	}
+});
 var mnuTheme = Ext.create('Ext.menu.Item', {
 	text: 'Theme', handler: function(){ moneta.Globals.fn.log(this.text + " clicked"); },
 	icon: 'icons/themes.png',
@@ -135,6 +141,7 @@ Ext.define("moneta.widgets.MainMenu",
 				items: [
 					<?php if (isUser() || isAdmin()) : ?> mnuAssets, <?php endif ?>
 					<?php if (isUser() || isAdmin()) : ?> mnuActions, <?php endif ?>	
+					<?php if (isUser() || isAdmin()) : ?> mnuShowReconciliations, <?php endif ?>						
 					'-',					
 					mnuExit
 				]

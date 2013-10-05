@@ -44,7 +44,7 @@ class ActivityMgr {
 		}
 		return $rows['data'];	
 	}
-
+	
 	static function getActivityTypes($get = null) {
 		self::$log->info('getActivityTypes');
 		// EXECUTE QUERY
@@ -188,6 +188,63 @@ class ActivityMgr {
 			}
 			$query = $query . "(`to`=" . $in_out_account . " OR `from`=" . $in_out_account . ") ";
 		}
+		if ($sortCol) {
+			$query = $query . " ORDER BY " . $sortCol . " ";
+			if ($sortDir) {
+				$query = $query . $sortDir . " ";
+			}
+		}
+		if ($limit) {
+			$query = $query . " LIMIT ";
+			if ($start) {
+				$query = $query . $start . ',';
+			}
+			$query = $query . $limit . " ";
+		}
+		// EXECUTE QUERY
+		$result = ProjectMgr::executeQuery($query);
+		$rows = array();
+		$rows['data'] = array();
+		while($r = mysql_fetch_assoc($result)) {
+			$rows['data'][] = $r;
+		}
+		return $rows['data'];
+	}
+	
+	// type $ledgerID, $start, $limit, $sort, $dir
+	static function getReconciliations($get = null) {
+		self::$log->info('getReconciliations');
+		
+		$start = null;
+		$limit = null;
+		$sortCol = null;
+		$sortDir = null;
+	
+		if (isset($get)) {
+			$start = Utils::getParam($get, 'start') or null;
+			$limit = Utils::getParam($get, 'limit') or null;
+			if (Utils::getParam($get, 'sort') != null) {
+				$sorter = JSON::fromString(Utils::getParam($get, 'sort'));
+				self::$log->info('Sorter: ' . $sorter);
+				if (is_string($sorter)) {
+					self::$log->info('STRING');
+					$sortCol = Utils::getParam($get, 'sort');
+					$sortDir = Utils::getParam($get, 'dir');
+				} else {
+					self::$log->info('JSON');
+					if (is_array($sorter)) {
+						self::$log->info('ARRAY');
+						$sorter = $sorter[0];
+					}
+					$sortCol = $sorter->property;
+					$sortDir = $sorter->direction;
+				}
+			}
+		}
+	
+		// PREPARES THE QUERY with filters
+		$query = "select * from activity_reconciliation_view";
+		$errMsg = null;
 		if ($sortCol) {
 			$query = $query . " ORDER BY " . $sortCol . " ";
 			if ($sortDir) {

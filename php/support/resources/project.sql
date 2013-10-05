@@ -408,14 +408,26 @@ DELIMITER ;
 
 DROP TABLE IF EXISTS activity_view;
 DROP VIEW IF EXISTS activity_view;
-CREATE VIEW activity_view AS select act.id AS id, act.date AS date, t.name AS type_v, getAccountName(act.from) AS from_v, 
+CREATE OR REPLACE VIEW activity_view AS select act.id AS id, act.date AS date, t.name AS type_v, getAccountName(act.from) AS from_v,
 getAccountName(act.to) AS to_v, act.amount AS amount, act.description AS description,
 getTagName(act.tag) AS tag_v,
 act.tag AS tag,
 act.from AS `from`,
 act.to AS `to`,
-act.type AS `type` 
+act.type AS `type`,
+act.origsrc,
+getAccountName(act.origsrc) AS origsrc_v
 from (activities act join activity_types t) where (act.type = t.id);
+
+CREATE OR REPLACE VIEW activity_reconciliation_view AS
+SELECT * FROM
+activity_view acts
+where acts.from in
+(
+  select a.id from accounts a, account_types t where
+  a.`type`=t.id and t.has_reconciliation=1
+)
+AND acts.origsrc is NULL;
 
 DROP VIEW IF EXISTS activity_view_chart;
 CREATE VIEW activity_view_chart AS select act.id AS id,act.date AS date,t.id AS type_id,t.name AS `type`,getAccountName(act.from) AS `from`,getAccountName(act.to) AS `to`,act.amount AS amount,`act`.`description` AS `description`,`getTagName`(`act`.`tag`) AS `tag` from (`activities` `act` join `activity_types` `t`) where (`act`.`type` = `t`.`id`);

@@ -1,38 +1,11 @@
 Ext.Loader.setConfig({enabled: true});
 
-/*
-Ext.Loader.setPath('Ext.ux', 'extjs/src/ux/');
-Ext.require([
-	'Ext.ux.PreviewPlugin',
-]);	
-// This is to use in place of RowExpander
-var grid = Ext.create('moneta.widgets.SmartGrid', { 
-	....
-	viewConfig: {
-		id: 'gv',
-		trackOver: false,
-		stripeRows: false,
-		plugins: [{
-			ptype: 'preview',
-			bodyField: 'excerpt',
-			expanded: true,
-			pluginId: 'preview'
-		}]
-	},
-	....
-}
-*/
-
-/*
- * Used to render data details for nodes.
- */
-
 /**
  * showDetails: given a type (1 - exits, 2 - entries, 3 - transfers, 4 - journal)
  * and a ledger it, it returns all the values for it.
  * notice: if the ledger is null the global value of type is returned.
  */
-function showDetails(activityType, accountID, _title) {
+function showReconciliations() {
 	// The panel that will contain the grid
 	container = Ext.create('Ext.panel.Panel', {
 		id: 'moneta.widgets.wnAccount.grid',
@@ -40,15 +13,19 @@ function showDetails(activityType, accountID, _title) {
 		frame: false,
 		border: 1,
 	});
-	var win = Ext.create('');
-	if (!win) {
-		return;
-	}
-	win.addComponent('center', container, null /* no header */);
+	var container = Ext.create('Ext.window.Window', {
+		width: 400,
+		minHeight: 400,
+		layout: 'fit',
+		resizable: true,
+		autoScroll: true,
+		renderTo: Ext.getBody(),
+	});
+	
 	// The target URL
-	var url = moneta.Globals.data.DATA_ENTRY_DETAILS + '?node=root' + (activityType ? ('&type=' + activityType) : '') + (accountID ? ('&account=' + accountID) : '');
+	var url = moneta.Globals.data.DATA_RECONCILIATION_DETAILS + '?';
 	// The store
-        var gridStore = Ext.create('moneta.store.SmartStore', 'moneta.model.Entry', url, 'data',
+        var gridStore = Ext.create('moneta.store.SmartStore', 'moneta.model.Reconciliation', url, 'data',
 		// custom params
 		{
 			// paging of 50 entries
@@ -58,13 +35,13 @@ function showDetails(activityType, accountID, _title) {
 		});
 	// The grid
 	var grid = Ext.create('moneta.widgets.SmartGrid', { 
-		model: 'moneta.model.Entry', 
+		model: 'moneta.model.Reconciliation', 
 		enableEdit: false,
 		enableExternalEdit: true,
 		frame: false,
 		border: 0,
 		store: gridStore,
-		title: _title,
+		title: 'Reconciliations',
 
 		plugins: [{
 			grid: grid,
@@ -84,5 +61,5 @@ function showDetails(activityType, accountID, _title) {
 	});
 	grid.closable = true;
 	container.add(grid);
-	
+	container.show();
 };
