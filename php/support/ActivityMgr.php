@@ -301,7 +301,7 @@ class ActivityMgr {
 		self::$log->info('Update: '. $param->id);
 		
 		$query = "UPDATE activities SET "
-			. "`date`=" . "STR_TO_DATE('" . $param->date . "', '%m/%d/%Y')," 
+			. "`date`=" . "STR_TO_DATE('" . $param->date . "', '%d/%m/%Y')," 
 			. "`from`='" . Utils::strTrim($param->from_v) . "',"
 			. "`to`='" . Utils::strTrim($param->to_v) . "',"
 			. "amount=" . $param->amount . ","
@@ -341,7 +341,7 @@ class ActivityMgr {
 		}
 		
 		$query = "INSERT INTO activities (date, `from`, `to`, amount, description, tag, type) VALUES (" 
-				. "STR_TO_DATE('" . $param->date . "', '%m/%d/%Y')," 
+				. "STR_TO_DATE('" . $param->date . "', '%d/%m/%Y')," 
 				. Utils::strTrim($param->from_v) . "," 
 				. Utils::strTrim($param->to_v) . "," 
 				. Utils::strTrim($param->amount) . "," 
