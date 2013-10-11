@@ -1,12 +1,10 @@
 Moneta - Ext-JS based standalone Web application for personal accounting
 ========================================================================
 
-http://webzash.org
+Moneta is a web based double entry accouting software written in PHP - CodeIgniter and uses MySQL as database backend.
 
-Webzash is a web based double entry accouting software written in PHP - CodeIgniter and uses MySQL as database backend.
-
-Webzash is licensed under Apache License, Version 2.0
-http://www.apache.org/licenses/LICENSE-2.0
+Moneta is licensed under GNU GENERAL PUBLIC LICENSE, Version 3.0
+http://gplv3.fsf.org/
 
 Main Features:
 - Window based GUI
