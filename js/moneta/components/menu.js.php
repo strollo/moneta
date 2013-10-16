@@ -190,6 +190,12 @@ Ext.define("moneta.widgets.MainMenu",
         '->', // same as { xtype: 'tbfill' }
 		'-',
 		{
+            xtype: 'label', // default for Toolbars
+            text: 'Allocated Objects: ',
+			id: moneta.Globals.id.UI_MNU_ALLOCATIONS,
+        },
+		'-',
+		{
             xtype: 'button', // default for Toolbars
             text: 'Current Project: ',
 			handler: function(){ 

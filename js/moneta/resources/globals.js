@@ -1,3 +1,26 @@
+
+
+Ext.define("moneta.Globals.configuration", {
+	singleton: true,
+	
+	DEBUG: true,
+});
+
+Ext.define("moneta.Globals.deamons", {
+	singleton: true,
+	
+	 // Start a simple clock task that updates a div once per second
+	 allocationsFn: Ext.TaskManager.start({
+		 run: function() {
+			try {
+				txt = Ext.getCmp(moneta.Globals.id.UI_MNU_ALLOCATIONS);
+				txt.setText('Allocated Objs: [' + document.getElementsByTagName('*').length + ']');
+			} catch (e) {}
+		 },
+		 interval: 1000
+	 }),
+});
+
 /*
  * Shared resources
  */
@@ -22,7 +45,9 @@ Ext.define("moneta.Globals.id", {
 	UI_WIN_USERS: 'win::users',
 	UI_WIN_CHARTS: 'win::charts',	
 	UI_WIN_TAGS: 'win::tags',
-	UI_TREE_ACCOUNTS: 'tree:accounts',	
+	UI_TREE_ACCOUNTS: 'tree::accounts',	
+	
+	UI_MNU_ALLOCATIONS: 'components::ui::allocations',	
 });
 
 Ext.define("moneta.Globals.handlers", {
