@@ -223,7 +223,7 @@ INSERT INTO `activity_types` (`id`,`name`,`description`,`from_sign`,`to_sign`,`i
 
 INSERT INTO `activity_permissions` (`activity_type`,`from_acct_type`,`to_acct_type`) VALUES 
  (2,1,5),
- (2,1,6),
+ (3,1,6),
  (3,1,1),
  (5,1,6),
  (7,1,5),
