@@ -88,10 +88,7 @@ function showAccounts() {
 					border: false,
 					items: [{
 						xtype: 'button',
-						//baseCls: 'x-btn-default-toolbar-small',
-						//width: 100,
 						text: 'Refresh',
-						tooltip: 'favollo',
 						iconCls: 'ico-refresh',
 						listeners: { 
 							click: function(event, node, x, y) { 

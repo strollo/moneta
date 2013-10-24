@@ -13,6 +13,7 @@ Ext.define('moneta.store.JSONStore', {
 	config: {
 		autoSync: true,
 		autoLoad: true,
+		autoDestroy: true,
 		proxy: {
 			 type: 'jsonp'
 		},
@@ -153,14 +154,17 @@ function createJSONTreePanel(rootLabel, storeURL) {
 			listeners : {
 				// To show the tooltips (field qtip)
 				itemmouseenter: function(view, rec, item, index, e, eOpts){
-					view.tip = Ext.create('Ext.tip.QuickTip', {
-						target: view.el,
-						delegate: view.itemSelector,
-						trackMouse: false,
-						renderTo: Ext.getBody(),
-					});
-				},
-			
+					// The treeview will be container of the single tooltip instance
+					if (!view.tip) {
+						view.tip = Ext.create('Ext.tip.QuickTip', {
+							trackMouse: true,
+							autoDestroy: true,
+						});
+					} else {
+						view.tip.show();
+					}
+				},				
+				
 				render : function () {
 					Ext.getBody().on("contextmenu", Ext.emptyFn, null, {
 						preventDefault : true,
@@ -169,6 +173,8 @@ function createJSONTreePanel(rootLabel, storeURL) {
 				itemcontextmenu: handleContextMenu,			
 			}
 	});
+	// Destroy the tooltip
+	_treepanel.on('destroy', function( panel, eOpts ) { try { panel.tip.destroy(); } catch (e) {} });
 	_treepanel.on('beforedestroy', moneta.Globals.handlers.onDestroy);
 	_treepanel.on('beforehide', moneta.Globals.handlers.onHide);
 	return _treepanel;
