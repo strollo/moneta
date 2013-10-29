@@ -65,8 +65,6 @@ function handleStockAjax(self, response){
 		win = Ext.create('Ext.window.Window', {
 			id: winID,
 			title: self.config.title || 'Chart',
-			height: 400,
-			width: 600,
 			layout: {
 				type: 'border',
 				regionWeights: {
@@ -150,6 +148,9 @@ function handleStockAjax(self, response){
 				}
 			}
 		});
+		var viewport = Ext.ComponentQuery.query('viewport')[0];
+		win.width = viewport.width - 100;
+		win.height = viewport.height - 100;
 		win.show();
 	}
 	
