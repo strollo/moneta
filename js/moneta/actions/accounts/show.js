@@ -16,7 +16,6 @@ function showAccounts() {
 		{
 			title: moneta.Globals.consts.WN_ACCOUNT_LABEL,
 			maximizable : true,
-			width: 800,
 			layout: {
 				type: 'border',
 				regionWeights: {
@@ -77,7 +76,11 @@ function showAccounts() {
 			onInit: function () {
 				// Creates the tree
 				var tree = createJSONTreePanel(moneta.Globals.consts.WN_ACCOUNT_LABEL, moneta.Globals.data.DATA_ACCOUNTS);
-				this.width = 800;
+				
+				var viewport = Ext.ComponentQuery.query('viewport')[0];
+				
+				this.width = viewport.width - 100;
+				this.height = viewport.height - 100;
 				this.addComponent('west', tree, null);
 				
 				
