@@ -62,7 +62,10 @@ function handleStockAjax(self, response){
 		var title = moneta.Globals.fn.capitalize(fields.items[0].rawValue);
 		win.setTitle(title);
 	} else {	
-		win = Ext.create('Ext.window.Window', {
+		win = Ext.create('moneta.widgets.EmbeddedWindow',
+		// The containerID
+		'main::center-body',
+		{
 			id: winID,
 			title: self.config.title || 'Chart',
 			layout: {

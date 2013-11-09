@@ -27,10 +27,20 @@
 Ext.define("moneta.widgets.ToggableWindow",
 {
 	extend: 'Ext.window.Window', 
-	height: 400,
-	//width: 600,
 	layout: 'fit',
-	//renderTo: 'main::center',
+	renderTo: 'main::center-body',
+	
+	listeners: {
+		maximize: function(self, eOpts) {
+			try {
+				self.setY(self.container.getY());
+			} catch (e) {}
+			// The top Y is not considered when restoring the original position
+			// on unminimize.
+			self.restorePos[1] += self.container.getY();
+			return false;
+		},
+	},
 	
 	// INIT
 	constructor : function (_ID, cfg) {

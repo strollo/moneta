@@ -50,8 +50,12 @@ function handleChartAjax(self, response){
 		var title = moneta.Globals.fn.capitalize(fields.items[0].rawValue) + ((moneta.Globals.fn.capitalize(fields.items[1].value)) ? ' <-> ' + moneta.Globals.fn.capitalize(fields.items[1].value) : '');
 		win.setTitle(title);
 	} else {	
-		win = Ext.create('Ext.window.Window', {
+		win = Ext.create('moneta.widgets.EmbeddedWindow', 
+		// The containerID
+		'main::center-body',
+		{
 			id: winID,
+			maximizable: true,
 			title: self.config.title || 'Chart',
 			layout: {
 				type: 'border',
