@@ -149,7 +149,6 @@ Ext.define('moneta.widgets.SmartGrid',
 		}
 		
 		var toolbar = Ext.create('Ext.toolbar.Toolbar', {
-			id: 'smart-grid-toolbar',
 			parentGrid: me,
 			items: [
 			// The Add button creates an auto-generated form by using the
