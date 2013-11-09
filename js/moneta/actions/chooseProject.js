@@ -5,7 +5,7 @@ function isProjectChoosen() {
 			Ext.getCmp('moneta.label.currPrj').text != '-');
 }
 
-function showAvailableProjects(parentMenu) {
+function showAvailableProjects(successCallback) {
 	if (Ext.getCmp('win:projectlist')) {
 		return Ext.getCmp('win:projectlist');
 	}
@@ -60,6 +60,9 @@ function showAvailableProjects(parentMenu) {
 						   // changes the label of current loaded project
 						   Ext.getCmp('moneta.label.currPrj').setText(Ext.getCmp('chosenPrj').rawValue);
 						   win.close();
+						   if (successCallback) {
+								successCallback();
+						   }
 						},
 						failure: function(form, action) {
 							Ext.Msg.alert('Failed', action.result.msg);

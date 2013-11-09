@@ -1,0 +1,134 @@
+
+h2.help {
+	font: 28px Verdana, sans-serif;
+	color: brown;
+	font-weight:bold;
+	margin-bottom: 0;
+	margin-top: 10;
+	border: 3px;
+	border-bottom-color: burlywood;
+	border-bottom-style: solid;
+	padding-bottom: 10;
+	margin-right: 10;
+}
+
+div.help {
+	margin: 10px;
+	margin-right: 80px;
+}
+ 
+div#help-center-body {background-color: antiquewhite;}
+
+div#help-body-body {background-color: antiquewhite;}
+ 
+.x-panel-default {
+	background-color: antiquewhite;
+}
+
+ol.help {
+	color: #ccc;
+	-webkit-padding-start: 0;
+}
+ol li.help {
+	position: relative;
+	/*font: bold italic 45px Helvetica, Verdana, sans-serif;*/
+	margin-bottom: 20px;
+}
+
+details {
+	position: relative;
+	font: bold italic 15px Helvetica, Verdana, sans-serif;
+	margin-bottom: 20px;
+	padding-left: 10px;
+}
+
+summary::-webkit-details-marker {
+  display: none
+}
+summary:after {
+  background: red; 
+  content: "+"; 
+  color: #fff; 
+  float: left; 
+  font-size: 1em; 
+  font-weight: bold; 
+  margin: 0px 15px 12px 0px; 
+  padding: 0; 
+  text-align: center; 
+  width: 20px;
+}
+details[open] summary:after {
+  content: "-";
+}
+
+summary {
+	font: 14px Helvetica, sans-serif;
+	padding-left: 10px;
+	color: #555;
+	border: azure;
+	border-width: 1px;
+	border-style: solid;
+	/* border-spacing: 10px; */
+	/* margin-top: auto; */
+	background-color: azure;
+}
+ 
+li p.help {
+	font: 14px Helvetica, sans-serif;
+	padding-left: 10px;
+	color: #555;
+	margin: 8px;
+}
+
+li p.helptitle {
+	font-weight: bolder;
+	font-size: large;
+	font: 22px Helvetica, sans-serif;
+	color: brown;
+	/*
+	border-bottom-style: solid;
+	border-bottom-color: burlywood;
+	*/
+	margin-left: 20px;
+	margin-right: 20px;
+}
+
+li p.helptitleicon {
+	font-weight: bolder;
+	font-size: large;
+	font: 22px Helvetica, sans-serif;
+	color: brown;
+	margin-left: 88px;
+	margin-right: 20px;
+	padding-bottom: 20;
+	padding-top: 20;
+}
+ 
+span.helpicon {
+	position: absolute;
+	margin-left: 10px;
+	text-shadow: yellowgreen;
+}
+
+figure {
+	text-align: center;
+}
+
+figcaption {
+	font: 12px Helvetica, sans-serif;
+	color: #555;	
+	font-weight:bold;
+	padding-top: 10px;
+}
+
+.article {
+    counter-reset: figures;
+}
+ 
+.figure figcaption {
+    counter-increment: figures;
+}
+ 
+.figure figcaption:before {
+    content: 'Fig. ' counter(figures) ' - ';
+}

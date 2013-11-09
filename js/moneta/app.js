@@ -5,8 +5,6 @@ Ext.define("moneta.app.Application",
 		requires: ["Ext.draw.Color", "Ext.chart.theme.Theme", "moneta.Globals.id", "moneta.Globals.fn", "moneta.Globals.widgets", "moneta.widgets.MainMenu"],
 		extend: "Ext.container.Viewport",
 		id: moneta.Globals.id.UI_APPLICATION,
-		width: 500,
-		height: 400,
 		layout: {
 			type: 'border',
 			regionWeights: {
@@ -72,7 +70,6 @@ Ext.define("moneta.app.Application",
 				layout: 'fit',
 			}
 		],
-		
 		/* 
 		 * Sets the component on the top (usually a menu)
 		 */
@@ -89,8 +86,3 @@ Ext.define("moneta.app.Application",
 		},
 	}
 );
-
-
-
-
-

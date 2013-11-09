@@ -20,6 +20,7 @@ Ext.require([
 		this.checkPaging();
 		this.checkEditing();
 		this.checkCRUD();
+		this.checkSearch();
 		this.callParent(arguments);
 		this.on('beforedestroy', moneta.Globals.handlers.onDestroy);
 	}
@@ -48,6 +49,7 @@ Ext.define('moneta.widgets.SmartGrid',
 {
 	extend: 'Ext.grid.Panel',
 	autoDestroy : true,
+	remoteFilter: true,
 	
 	viewConfig: {
 		loadMask: true,
@@ -64,6 +66,8 @@ Ext.define('moneta.widgets.SmartGrid',
 	enableGrouping: true,
 	// Enables Delete/Edit/Update buttons
 	enableCRUD: true,
+	// Enables the search plugin
+	enableSearch: false,
 	// Enables editing on columns - the editable columns must be declared in the model
 	// with a form (editor: 'textfield')
 	// @see http://docs.sencha.com/extjs/4.1.1/#!/api/Ext.Editor for more details
@@ -80,6 +84,30 @@ Ext.define('moneta.widgets.SmartGrid',
 			}
 		}
 		return null;
+	},
+	
+	onTextFieldReset: function(self) {
+		console.log('TEST onTextFieldChange');		
+		this.store.clearFilter();
+		this.store.load();
+		
+		t = this.dockedItems.items[2];
+		t.items.items[5].setValue(null);
+	},
+	
+	onTextFieldChange: function(self) {
+		console.log('TEST onTextFieldChange');
+		
+		this.store.clearFilter();
+				
+		this.store.filter({
+		  property: 'description',
+		  value: self.value,
+		  exactMatch: false,
+		  anyMatch: true,
+		  caseSensitive: false
+		});
+		this.store.load();
 	},
 	
 	refreshData: function() {
@@ -121,6 +149,7 @@ Ext.define('moneta.widgets.SmartGrid',
 		}
 		
 		var toolbar = Ext.create('Ext.toolbar.Toolbar', {
+			id: 'smart-grid-toolbar',
 			parentGrid: me,
 			items: [
 			// The Add button creates an auto-generated form by using the
@@ -200,8 +229,47 @@ Ext.define('moneta.widgets.SmartGrid',
 		me.dockedItems.push(toolbar);
 	}, // checkCRUD
 	
+	getToolbar: function(grid) {
+		return grid.dockedItems[0];
+	},
+	
 	handleEditField: function(editor, e, eOpts) {
 		console.log('[SmartGrid] handleEditField');
+	},
+	
+	checkSearch: function() {
+		var me = this;
+		if ( (!Ext.isDefined(me.enableSearch) || me.enableSearch != true) ) 
+		{		
+			return;
+		}		
+		
+		var toolbar = me.getToolbar(me);
+		toolbar.items.add(Ext.create('Ext.toolbar.Fill'));
+		toolbar.items.add(Ext.create('Ext.toolbar.TextItem', {text: 'Search'}));
+		toolbar.items.add(Ext.create('Ext.form.field.Text', {
+			 name: 'searchField',
+			 hideLabel: true,
+			 width: 200,
+			 
+			 listeners: {
+				specialkey: function(field, e) {
+					if (e.getKey() == e.ENTER) {
+						me.onTextFieldChange(this);
+					}
+				}
+			 }
+		}));
+		toolbar.items.add(Ext.create('Ext.Button', {
+			 tooltip: 'Clear Filter',	
+			 icon: 'icons/dialog_cancel.png',
+			 listeners: {
+				click: function(self, e) {
+					me.onTextFieldReset(this);
+				}
+			 }
+		}));
+		
 	},
 	
 	checkEditing: function() {

@@ -15,7 +15,6 @@ Ext.Loader.loadScript( currPath + '/showReconciliations.js' );
 Ext.Loader.loadScript( currPath + '/createForm.js' );
 Ext.Loader.loadScript( currPath + '/createEditForm.js' );
 
-
 // Accounts
 Ext.Loader.loadScript( currPath + '/accounts/create.js' );
 Ext.Loader.loadScript( currPath + '/accounts/show.js' );
@@ -25,3 +24,6 @@ Ext.Loader.loadScript( currPath + '/accounts/edit.js' );
 // Entries - Activities
 Ext.Loader.loadScript( currPath + '/entries/create.js' );
 Ext.Loader.loadScript( currPath + '/entries/show.js' );
+
+// OnLogin handler
+Ext.Loader.loadScript( currPath + '/onLogin.js' );

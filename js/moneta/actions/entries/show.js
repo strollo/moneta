@@ -60,6 +60,7 @@ function showDetails(activityType, accountID, _title) {
 	var grid = Ext.create('moneta.widgets.SmartGrid', { 
 		model: 'moneta.model.Entry', 
 		enableEdit: false,
+		enableSearch: true,
 		enableExternalEdit: true,
 		frame: false,
 		border: 0,

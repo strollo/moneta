@@ -63,12 +63,14 @@ class ActivityMgr {
 		$type = null;
 		$from_acct = null;
 		$to_acct = null;
+		$filters = null;
 	
 		if (isset($get)) {
 			$type = Utils::getParam($get, 'type') or null;
 			$from_acct = Utils::getParam($get, 'from') or null;
 			$in_out_account = Utils::getParam($get, 'account') or null;
 			$to_acct = Utils::getParam($get, 'to') or null;
+			$filters = Utils::getParam($get, 'filter') or null;
 		}
 	
 		// PREPARES THE QUERY with filters
@@ -106,6 +108,23 @@ class ActivityMgr {
 			}
 			$query = $query . "(`to`=" . $in_out_account . " OR `from`=" . $in_out_account . ") ";
 		}
+		if (!is_null($filters)) {
+			$_filterArray = JSON::fromString($filters);
+			foreach ($_filterArray as $i => $value) {
+				$_elem = $_filterArray[$i];
+				$_prop = $_elem->property;
+				$_val = $_elem->value;
+				
+				if (!$hasWhere) {
+					$query = $query . " WHERE ";
+					$hasWhere = true;
+				} else {
+					$query = $query . " AND ";
+				}
+				$query = $query . "(" . $_prop . " like '%" . $_val . "%') ";				
+			}			
+		}		
+		
 		// EXECUTE QUERY
 		$result = ProjectMgr::executeQuery($query);
 		$retval = -1;
@@ -126,12 +145,14 @@ class ActivityMgr {
 		$limit = null;
 		$sortCol = null;
 		$sortDir = null;
+		$filters = null;
 	
 		if (isset($get)) {
 			$type = Utils::getParam($get, 'type') or null;
 			$from_acct = Utils::getParam($get, 'from') or null;
 			$in_out_account = Utils::getParam($get, 'account') or null;
 			$to_acct = Utils::getParam($get, 'to') or null;
+			$filters = Utils::getParam($get, 'filter') or null;
 			$start = Utils::getParam($get, 'start') or null;
 			$limit = Utils::getParam($get, 'limit') or null;
 			if (Utils::getParam($get, 'sort') != null) {
@@ -188,6 +209,24 @@ class ActivityMgr {
 			}
 			$query = $query . "(`to`=" . $in_out_account . " OR `from`=" . $in_out_account . ") ";
 		}
+		
+		if (!is_null($filters)) {
+			$_filterArray = JSON::fromString($filters);
+			foreach ($_filterArray as $i => $value) {
+				$_elem = $_filterArray[$i];
+				$_prop = $_elem->property;
+				$_val = $_elem->value;
+				
+				if (!$hasWhere) {
+					$query = $query . " WHERE ";
+					$hasWhere = true;
+				} else {
+					$query = $query . " AND ";
+				}
+				$query = $query . "(" . $_prop . " like '%" . $_val . "%') ";				
+			}			
+		}
+		
 		if ($sortCol) {
 			$query = $query . " ORDER BY " . $sortCol . " ";
 			if ($sortDir) {

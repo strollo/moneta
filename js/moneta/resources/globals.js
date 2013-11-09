@@ -47,6 +47,8 @@ Ext.define("moneta.Globals.id", {
 	UI_WIN_TAGS: 'win::tags',
 	UI_TREE_ACCOUNTS: 'tree::accounts',	
 	
+	UI_WIN_HELP: 'win::help',	
+	
 	UI_MNU_ALLOCATIONS: 'components::ui::allocations',	
 });
 

@@ -21,6 +21,9 @@ if(isset($_SESSION) and isset($_SESSION['authuser'])) {
 		myDesktopApp.addComponent(null, statusBar, "south");
 		
 		moneta.Globals.fn.log('> moneta.app.Application: [RUNNING]');
+		
+		/* Application loaded */
+		onLogin();
 	});    		
 </script>
 <?php

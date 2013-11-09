@@ -5,7 +5,7 @@
 function showAccounts() {
 
 	if (!isProjectChoosen()) {
-		showAvailableProjects();
+		showAvailableProjects(showAccounts);
 		return;
 	}
 

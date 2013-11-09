@@ -1,0 +1,1 @@
+/* * Loads all the actions. */var currPath = 'js/moneta/help';console.log('Loading from ... ' + currPath);Ext.Loader.loadScript( currPath + '/show.js' );Ext.Loader.loadScript( currPath + '/HTMLPanel.js' );

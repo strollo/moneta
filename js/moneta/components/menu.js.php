@@ -65,18 +65,6 @@ var mnuAssets = Ext.create('Ext.menu.Item', {
 		showAccounts();
 	}
 });
-var mnuActions =  Ext.create('Ext.menu.Item', {
-	text: 'Actions',
-	icon: 'icons/actions.png',
-	menu: new Ext.menu.Menu({
-		items: [
-			// Theme::Default
-			{ text: 'New Account', icon: 'icons/add_bank.png', handler: function(){ createAccount(); } },
-			{ text: 'New Operation', icon: 'icons/add_entry.png', handler: function(){ createEntry(); } },
-			{ text: 'Manage Tags', handler: function(){ showTags(); }, icon: 'icons/tags.png'},
-		]
-	})
-});
 var mnuExit = Ext.create('Ext.menu.Item', {
 	text: 'Exit',
 	icon: 'icons/exit.png',
@@ -94,12 +82,6 @@ var mnuShowCharts = Ext.create('Ext.menu.Item', {
 			{ text: 'Stock Charts', handler: function(){ showStocks(); } },
 		]
 	})
-});
-var mnuShowReconciliations = Ext.create('Ext.menu.Item', {
-	text: 'Reconciliations', 
-	handler: function(){ 
-		showReconciliations();
-	}
 });
 var mnuTheme = Ext.create('Ext.menu.Item', {
 	text: 'Theme', handler: function(){ moneta.Globals.fn.log(this.text + " clicked"); },
@@ -139,11 +121,24 @@ Ext.define("moneta.widgets.MainMenu",
             text: 'Main',
 			menu: new Ext.menu.Menu({
 				items: [
-					<?php if (isUser() || isAdmin()) : ?> mnuAssets, <?php endif ?>
-					<?php if (isUser() || isAdmin()) : ?> mnuActions, <?php endif ?>	
-					<?php if (isUser() || isAdmin()) : ?> mnuShowReconciliations, <?php endif ?>						
+					<?php if (isUser() || isAdmin()) : ?> mnuAssets, <?php endif ?>				
 					'-',					
 					mnuExit
+				]
+			})
+        },
+		// Actions
+		{
+		    xtype: 'button', // default for Toolbars
+            text: 'Actions',
+			menu: new Ext.menu.Menu({
+				items: [
+					{ text: 'New Account', icon: 'icons/add_bank.png', handler: function(){ createAccount(); } },
+					{ text: 'New Operation', icon: 'icons/add_entry.png', handler: function(){ createEntry(); } },
+					'-',
+					{ text: 'Reconciliations', handler: function(){ showReconciliations(); }},
+					'-',
+					{ text: 'Manage Tags', handler: function(){ showTags(); }, icon: 'icons/tags.png'},
 				]
 			})
         },
@@ -216,6 +211,13 @@ Ext.define("moneta.widgets.MainMenu",
 			icon: 'icons/about.png',
 			handler: function(){ showAbout(); }
         },
+		// begin using the right-justified button container
+        {
+            xtype: 'button', // default for Toolbars
+            text: 'Help',
+			icon: 'icons/help.png',
+			handler: function(){ showHelp(); }
+        },		
 		'-',
 		{
             xtype: 'button', // default for Toolbars

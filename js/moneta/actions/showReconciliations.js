@@ -6,6 +6,11 @@ Ext.Loader.setConfig({enabled: true});
  * notice: if the ledger is null the global value of type is returned.
  */
 function showReconciliations() {
+	if (!isProjectChoosen()) {
+		showAvailableProjects(showReconciliations);
+		return;
+	}
+
 	var container = Ext.create('Ext.window.Window', {
 		title: 'Reconciliations',
 		width: 600,

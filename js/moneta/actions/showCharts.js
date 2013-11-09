@@ -17,7 +17,7 @@ function showCharts(id, title, activityType, groupBy, limit) {
 	}
 
 	if (!isProjectChoosen()) {
-		showAvailableProjects();
+		showAvailableProjects(showCharts);
 		return;
 	}
 

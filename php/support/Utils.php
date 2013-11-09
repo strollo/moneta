@@ -112,6 +112,10 @@ class Utils {
 		}
 		return $retval;
 	}
+	
+	static function getCurrentURLPath() {
+		return substr($_SERVER["SCRIPT_NAME"], 0, strrpos($_SERVER["SCRIPT_NAME"],"/") + 1);
+	}
 }
 
 // Applies the initialization of static fields

@@ -11,7 +11,7 @@ function showStocks(id, title, activityType) {
 	}
 
 	if (!isProjectChoosen()) {
-		showAvailableProjects();
+		showAvailableProjects(showStocks);
 		return;
 	}
 
