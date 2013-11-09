@@ -77,7 +77,7 @@ Ext.define('moneta.model.Entry', {
 		/* FIELD: Date */
 		{name: 'date', type: 'date',
 			// Options for the smart grid
-			Defaults: { editor: { xtype: 'datefield', allowBlank: true, format: 'd/m/Y', }, value: new Date(), },
+			Defaults: { editor: { xtype: 'datefield', allowBlank: false, format: 'd/m/Y', }, value: new Date(), },
 			GridOptions: { text: "Date", width: 80,  align: 'left',  sortable: true, renderer: Ext.util.Format.dateRenderer('d/m/Y')},
 			FormOptions: { fieldLabel: 'Date', allowBlank: false }
 		},	
@@ -95,7 +95,8 @@ Ext.define('moneta.model.Entry', {
 					listeners: {
 						change: onEntryTypeChange,
 						afterrender: onEntryLoad
-					}
+					},
+					allowBlank: false,
 				},
 			},		
 			GridOptions: {
@@ -123,7 +124,8 @@ Ext.define('moneta.model.Entry', {
 					fields: ['id','name'], 
 					url: moneta.Globals.lists.LIST_ALLOWED_ACCTS, 
 					valueField: 'id', 
-					displayField: 'name'
+					displayField: 'name',
+					allowBlank: false,
 				},
 			},			
 			GridOptions: {
@@ -151,7 +153,8 @@ Ext.define('moneta.model.Entry', {
 					fields: ['id','name'], 
 					url: moneta.Globals.lists.LIST_ALLOWED_ACCTS, 
 					valueField: 'id', 
-					displayField: 'name'
+					displayField: 'name',
+					allowBlank: false,
 				},
 			},
 			GridOptions: {
@@ -183,7 +186,8 @@ Ext.define('moneta.model.Entry', {
 					fields: ['name','name'], 
 					url: moneta.Globals.lists.LIST_TAGS, 
 					valueField: 'name', 
-					displayField: 'name'
+					displayField: 'name',
+					allowBlank: false,
 				},
 			},
 			GridOptions: {

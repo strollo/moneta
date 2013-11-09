@@ -21,9 +21,11 @@ div#help-center-body {background-color: antiquewhite;}
 
 div#help-body-body {background-color: antiquewhite;}
  
+/*
 .x-panel-default {
-	background-color: antiquewhite;
+	background-color: antiquewhite; 
 }
+*/
 
 ol.help {
 	color: #ccc;

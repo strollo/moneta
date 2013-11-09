@@ -30,6 +30,7 @@ Ext.define("moneta.widgets.ToggableWindow",
 	height: 400,
 	//width: 600,
 	layout: 'fit',
+	//renderTo: 'main::center',
 	
 	// INIT
 	constructor : function (_ID, cfg) {
