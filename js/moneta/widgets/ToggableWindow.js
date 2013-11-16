@@ -30,6 +30,14 @@ Ext.define("moneta.widgets.ToggableWindow",
 	layout: 'fit',
 	renderTo: 'main::center-body',
 	
+	toggle: function() {
+		if (this.isVisible()) {
+			this.hide();
+		} else {
+			this.show();
+		}
+	},
+	
 	listeners: {
 		maximize: function(self, eOpts) {
 			try {
@@ -52,8 +60,8 @@ Ext.define("moneta.widgets.ToggableWindow",
 		},
 		
 		create: function (id, cfg) {
-			win = Ext.get(id);
-			if (!win) {
+			win = Ext.getCmp(id);
+			if (!win || win.isDestroyed) {
 				moneta.Globals.fn.clog('Creating a new ToggableWindow: [' + id + ']');
 				win = Ext.create('moneta.widgets.ToggableWindow', id, cfg);
 				win.onInit();
@@ -61,10 +69,8 @@ Ext.define("moneta.widgets.ToggableWindow",
 
 				// Forces the registration of component otherwise the further getCmp will fail.
 				Ext.ComponentManager.register(win);
-				win.show();
-				//try {
-					Ext.get(id).toggle();
-				//} catch (e) {}
+				//win.show();
+				win.toggle();
 				return Ext.get(id);
 			} else {
 				moneta.Globals.fn.clog('Recycling ToggableWindow: [' + id + ']');
@@ -86,9 +92,4 @@ Ext.define("moneta.widgets.ToggableWindow",
 	// just the first time.
 	onInit: function () {},
 	
-	onDestroy: function () {
-		moneta.Globals.fn.clog('Destroying ToggableWindow: [' + this.id + ']');
-		this.hide();
-		return false;
-	},
 });
