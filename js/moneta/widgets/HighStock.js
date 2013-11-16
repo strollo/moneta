@@ -13,6 +13,17 @@ function buildHighStock(self, response) {
 				display: 'none'
 			}
 		},
+		 legend: {
+	    	enabled: true,
+	    	align: 'right',
+        	backgroundColor: '#FCFFC5',
+        	borderColor: 'black',
+        	borderWidth: 2,
+	    	layout: 'vertical',
+	    	verticalAlign: 'top',
+	    	y: 100,
+	    	shadow: true
+	    },
 		series : [],
 		xAxis: {	
 			// Needed for many points
