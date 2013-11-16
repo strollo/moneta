@@ -42,6 +42,37 @@ Ext.define("moneta.widgets.ToggableWindow",
 		},
 	},
 	
+	statics: {
+		exists: function (id) {
+			return (Ext.getCmp(id) != null);
+		},
+		
+		get: function (id) {
+			return Ext.getCmp(id);
+		},
+		
+		create: function (id, cfg) {
+			win = Ext.get(id);
+			if (!win) {
+				moneta.Globals.fn.clog('Creating a new ToggableWindow: [' + id + ']');
+				win = Ext.create('moneta.widgets.ToggableWindow', id, cfg);
+				win.onInit();
+				win.on('beforedestroy', moneta.Globals.handlers.onDestroy);
+
+				// Forces the registration of component otherwise the further getCmp will fail.
+				Ext.ComponentManager.register(win);
+				win.show();
+				//try {
+					Ext.get(id).toggle();
+				//} catch (e) {}
+				return Ext.get(id);
+			} else {
+				moneta.Globals.fn.clog('Recycling ToggableWindow: [' + id + ']');
+			}
+			return win;
+		},
+	},
+	
 	// INIT
 	constructor : function (_ID, cfg) {
 		moneta.Globals.fn.log('Building a new window ID [' + _ID + ']');
@@ -61,30 +92,3 @@ Ext.define("moneta.widgets.ToggableWindow",
 		return false;
 	},
 });
-
-moneta.widgets.ToggableWindow.exists = function (id) {
-	return (Ext.getCmp(id) != null);
-};
-
-moneta.widgets.ToggableWindow.get = function (id) {
-	return Ext.getCmp(id);
-};
-
-moneta.widgets.ToggableWindow.create = function (id, cfg) {
-	win = Ext.get(id);
-	if (!win) {
-		moneta.Globals.fn.clog('Creating a new ToggableWindow: [' + id + ']');
-		win = Ext.create('moneta.widgets.ToggableWindow', id, cfg);
-		win.onInit();
-		win.on('beforedestroy', moneta.Globals.handlers.onDestroy);
-
-		// Forces the registration of component otherwise the further getCmp will fail.
-		Ext.ComponentManager.register(win);
-		win.show();
-		Ext.get(id).toggle();
-		return Ext.get(id);
-	} else {
-		moneta.Globals.fn.clog('Recycling ToggableWindow: [' + id + ']');
-	}
-	return win;
-};

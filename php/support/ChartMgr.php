@@ -45,8 +45,9 @@ class ChartMgr {
 	
 	static function buildTotIncomes() {
 		self::$log->info('buildTotOutgoings');
+		# Uses the middle of month for timestamp to avoid GMT timezone conversion that will bring the 01/xx/xxxx at midnight to the day before.
 		$query = 
-			"select UNIX_TIMESTAMP(concat(year(date), '/', month(date), '/01')) * 1000 AS name, sum(activities.amount) AS value " . 
+			"select UNIX_TIMESTAMP(concat(year(date), '/', month(date), '/15')) * 1000 AS name, sum(activities.amount) AS value " . 
 			"FROM activities where activities.`from` IN (select id from accounts where type=4) group by concat(year(date), '-', month(date))" .
 			"order by name";
 		$result = ProjectMgr::executeQuery($query);
@@ -64,7 +65,7 @@ class ChartMgr {
 	static function buildTotOutgoings() {
 		self::$log->info('buildTotOutgoings');
 		$query = 
-			"select UNIX_TIMESTAMP(concat(year(date), '/', month(date), '/01')) * 1000 AS name, sum(activities.amount) AS value " . 
+			"select UNIX_TIMESTAMP(concat(year(date), '/', month(date), '/15')) * 1000 AS name, sum(activities.amount) AS value " . 
 			"FROM activities where activities.`to` IN (select id from accounts where type=5) group by concat(year(date), '-', month(date))" .
 			"order by name";
 		$result = ProjectMgr::executeQuery($query);
@@ -80,7 +81,7 @@ class ChartMgr {
 	static function buildTotNetGross() {
 		self::$log->info('buildTotNetGross');
 		$query = 
-			"select UNIX_TIMESTAMP(concat(year(date), '/', month(date), '/01')) * 1000 AS name, (A._in_value - B._out_value) AS value from " .
+			"select UNIX_TIMESTAMP(concat(year(date), '/', month(date), '/15')) * 1000 AS name, (A._in_value - B._out_value) AS value from " .
 			"( select date, concat(year(date), '-', month(date)) as _in_month, sum(activities.amount) AS _in_value FROM activities where activities.`from` IN (select id from accounts where type=4) group by _in_month) AS A, " .
 			"( select concat(year(date), '-', month(date)) as _out_month, sum(activities.amount) AS _out_value FROM activities where activities.`to` IN (select id from accounts where type=5) group by _out_month ) AS B " .
 			"WHERE A._in_month = B._out_month " .

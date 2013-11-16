@@ -1,7 +1,6 @@
 
 function buildHighStock(self, response) {
-	var chartOptions = {
-		
+	var chartOptions = {		
 		chart: {
 			renderTo: self.config.id,
 			reflow: true,
@@ -83,60 +82,12 @@ function handleStockAjax(self, response){
 				}
 			},		
 			items: [
-				// OPTIONS FORM
-				{
-					xtype: 'form',
-					baseCls: 'x-panel-header-custom',
-					padding: 5,
-					region : "north",
-					height: 'auto',
-					collapsible : false,
-					split : false,	
-					border: '1px',
-					layout: {
-						type: 'hbox',
-						align: 'stretch'
-					},
-					items: [
-						{
-							xtype: 'label',
-							text: 'Activity:',
-							padding: 4,
-							flex: 1
-						},
-						{						
-							xtype: 'smartcombobox',
-							url: moneta.Globals.lists.LIST_ACTIVITY_TYPES,
-							fields: ['id','name'],
-							valueField: 'id',
-							displayField: 'name',
-							multiSelect: false,
-							flex: 2
-						},
-						{
-							xtype: 'menuseparator',
-							baseCls: 'x-panel-header-custom',
-							flex: 3
-						},
-						{						
-							xtype: 'button',
-							text: 'Update',
-							handler: function() {
-								var fields = this.ownerCt.form.getFields();
-								var actType = fields.items[0].value;
-								var title = moneta.Globals.fn.capitalize(fields.items[0].rawValue);
-								var oldChart = this.ownerCt.ownerCt.items.items[this.ownerCt.ownerCt.items.length-1];								
-								showStocks(oldChart.id, title, actType);
-							},
-							flex: 1
-						},
-					],					
-				}, // ENDOF - OPTIONS FORM	
+				// The container of highchart to embed
 				{
 					region : "center",
 					layout: 'fit',
-					xtype: 'panel',
 					id: self.config.id,
+					xtype: 'panel',
 				}
 			],
 			listeners: {
@@ -161,6 +112,59 @@ function handleStockAjax(self, response){
 		win.show();
 	}
 	
+	// The header form to change data
+	var form = Ext.create('Ext.form.Panel', {
+		baseCls: 'x-panel-header-custom',
+		padding: 5,
+		region : "north",
+		height: 'auto',
+		collapsible : false,
+		split : false,	
+		border: '1px',
+		layout: {
+			type: 'hbox',
+			align: 'stretch'
+		},
+		items: [
+			{
+				xtype: 'label',
+				text: 'Activity:',
+				padding: 4,
+				flex: 1
+			},
+			{						
+				xtype: 'smartcombobox',
+				url: moneta.Globals.lists.LIST_ACTIVITY_TYPES,
+				fields: ['id','name'],
+				valueField: 'id',
+				displayField: 'name',
+				multiSelect: false,
+				flex: 2
+			},
+			{
+				xtype: 'menuseparator',
+				baseCls: 'x-panel-header-custom',
+				flex: 3
+			},
+			{						
+				xtype: 'button',
+				text: 'Update',
+				handler: function() {
+					var fields = this.ownerCt.form.getFields();
+					var actType = fields.items[0].value;
+					var title = moneta.Globals.fn.capitalize(fields.items[0].rawValue);
+					var oldChart = this.ownerCt.ownerCt.items.items[this.ownerCt.ownerCt.items.length-1];								
+					showStocks(oldChart.id, title, actType);
+				},
+				flex: 1
+			},
+		],		
+	});
+	
+	if (!self.config.hideToolBar) {
+		win.add(form);
+	}
+	
 	win.mask();
 	var panel = win.items.items[win.items.items.length-1];	
 	var chartH = buildHighStock(self, response);
@@ -177,6 +181,11 @@ function handleStockAjax(self, response){
 Ext.define('moneta.widgets.HighStock', {
 	extend: 'Ext.panel.Panel',
 	xtype: 'hchart',	
+	
+	config: {
+		// Allows to remove the toolbar with graph options
+		hideToolBar: false,
+	},
 
 	loadData: function() {
 		var me = this;		
