@@ -41,12 +41,12 @@ class ChartMgr {
 	/**
 	 * Gives for each month the trend incomes/expenses difference.
 	 */
-	static function getNetGrossTrend($INactivityType=1, $OUTactivityType=2) {
+	static function getNetGrossTrend() {
 		self::$log->info('getNetGrossTrend');
 		$query = 
 			"select UNIX_TIMESTAMP(A.date)*1000 AS name, (A._in_value - B._out_value) AS value from" .
-			"( select date, concat(year(date), '-', month(date)) as _in_month, sum(activities.amount) AS _in_value FROM activities where type=" . $INactivityType ." group by _in_month) AS A, " .
-			"( select concat(year(date), '-', month(date)) as _out_month, sum(activities.amount) AS _out_value FROM activities where type=". $OUTactivityType ." group by _out_month ) AS B " .
+			"( select date, concat(year(date), '-', month(date)) as _in_month, sum(activities.amount) AS _in_value FROM activities where activities.`from` IN (select id from accounts where type=4) group by _in_month) AS A, " .
+			"( select concat(year(date), '-', month(date)) as _out_month, sum(activities.amount) AS _out_value FROM activities where activities.`to` IN (select id from accounts where type=5) group by _out_month ) AS B " .
 			"WHERE A._in_month = B._out_month " .
 			"order by name";
 		$result = ProjectMgr::executeQuery($query);
