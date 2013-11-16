@@ -6,10 +6,6 @@ include_once $BASEPATH . '/support/ChartMgr.php';
 include_once $BASEPATH . '/support/JSON.php';
 include_once $BASEPATH . '/support/Utils.php';
 
-if (!isset($_GET['activity_type'])) {
-	JSON::sendError('No proper activity_type parameter specified');
-}
-
 function buildChartData($req) {
 	JSON::sendJSONResult($_GET, 
 		ChartMgr::getChartData(
@@ -22,16 +18,25 @@ function buildChartData($req) {
 
 function buildStockData($req) {
 	JSON::sendJSONResult($_GET, 
-		ChartMgr::getStockFunction(
+		ChartMgr::getStockData(
 			Utils::getParam($_GET, 'activity_type')
 		)
 	);
 }
 
+function buildStockNetGross($req) {
+	JSON::sendJSONResult($_GET, 
+		ChartMgr::getNetGrossTrend()
+	);
+}
+
 if ((!isset($_GET) || !isset($_GET['graphT'])) || $_GET['graphT'] == 'chart') {
 	buildChartData($_GET);
-} else if ($_GET['graphT'] == 'stock') {
+} else if ($_GET['graphT'] === 'stock') {
+	//echo('HELLO');
 	buildStockData($_GET);
+} else if ($_GET['graphT'] == 'stocknetgross') {
+	buildStockNetGross($_GET);
 }
 
 

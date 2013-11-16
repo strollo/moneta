@@ -1,4 +1,9 @@
 
+/* The div auto generated from ExtJS */
+div#help-center-body {background-color: antiquewhite;}
+div#help-body-body {background-color: antiquewhite;}
+
+
 h2.help {
 	font: 28px Verdana, sans-serif;
 	color: brown;
@@ -16,32 +21,31 @@ div.help {
 	margin: 10px;
 	margin-right: 80px;
 }
- 
-div#help-center-body {background-color: antiquewhite;}
 
-div#help-body-body {background-color: antiquewhite;}
- 
-/*
-.x-panel-default {
-	background-color: antiquewhite; 
-}
-*/
 
 ol.help {
-	color: #ccc;
 	-webkit-padding-start: 0;
+	list-style: none;
 }
 ol li.help {
 	position: relative;
-	/*font: bold italic 45px Helvetica, Verdana, sans-serif;*/
 	margin-bottom: 20px;
+	font: 14px Helvetica, sans-serif;
+	color: #555;
 }
 
-details {
+ol details {
 	position: relative;
 	font: bold italic 15px Helvetica, Verdana, sans-serif;
 	margin-bottom: 20px;
-	padding-left: 10px;
+	/* padding-left: 10px; */
+	background-color: cornsilk;
+	margin-left: 20px;
+	border-style: dashed;
+	border-width: 1px;
+	border-radius: 1px;
+	padding-top: 5px;
+	padding-bottom: 5px;
 }
 
 summary::-webkit-details-marker {
@@ -67,15 +71,20 @@ summary {
 	font: 14px Helvetica, sans-serif;
 	padding-left: 10px;
 	color: #555;
-	border: azure;
-	border-width: 1px;
-	border-style: solid;
-	/* border-spacing: 10px; */
-	/* margin-top: auto; */
-	background-color: azure;
 }
- 
-li p.help {
+
+/* Centers the image and the text vertically */
+ol p.helptitle img {
+	position: relative;
+	vertical-align: middle;
+	/* dinstance from image and text */
+	padding-right: 20px;
+	padding-bottom: 10px;
+};
+
+ol li p.help {
+	margin-left: 10px;
+	margin-top: 10px;	
 	font: 14px Helvetica, sans-serif;
 	padding-left: 10px;
 	color: #555;
@@ -86,30 +95,7 @@ li p.helptitle {
 	font-weight: bolder;
 	font-size: large;
 	font: 22px Helvetica, sans-serif;
-	color: brown;
-	/*
-	border-bottom-style: solid;
-	border-bottom-color: burlywood;
-	*/
-	margin-left: 20px;
-	margin-right: 20px;
-}
-
-li p.helptitleicon {
-	font-weight: bolder;
-	font-size: large;
-	font: 22px Helvetica, sans-serif;
-	color: brown;
-	margin-left: 88px;
-	margin-right: 20px;
-	padding-bottom: 20;
-	padding-top: 20;
-}
- 
-span.helpicon {
-	position: absolute;
-	margin-left: 10px;
-	text-shadow: yellowgreen;
+	color: brown;	
 }
 
 figure {

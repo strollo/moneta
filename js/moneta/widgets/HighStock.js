@@ -14,7 +14,7 @@ function buildHighStock(self, response) {
 			}
 		},
 		series : [
-			{
+			{	
 				tooltip: {
 					valueDecimals: 2
 				}

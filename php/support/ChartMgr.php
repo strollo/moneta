@@ -24,14 +24,34 @@ class ChartMgr {
 		}
 	}
 	
-	static function getStockFunction($activityType=2) {
+	static function getStockData($activityType=2) {
 		self::$log->info('getByTag');
 		$query = "select UNIX_TIMESTAMP(date)*1000 as name, activities.amount as value FROM activities where type=" . $activityType . " order by date";
 		$result = ProjectMgr::executeQuery($query);
 		$rows = array();
-		$i = 0;
 		while($r = mysql_fetch_assoc($result)) {
-			$i++;
+			$rows['data'][] = $r;
+		}
+		if (!isset($rows['data'])) {
+			return $rows;
+		}		
+		return $rows['data'];
+	}
+	
+	/**
+	 * Gives for each month the trend incomes/expenses difference.
+	 */
+	static function getNetGrossTrend($INactivityType=1, $OUTactivityType=2) {
+		self::$log->info('getNetGrossTrend');
+		$query = 
+			"select UNIX_TIMESTAMP(A.date)*1000 AS name, (A._in_value - B._out_value) AS value from" .
+			"( select date, concat(year(date), '-', month(date)) as _in_month, sum(activities.amount) AS _in_value FROM activities where type=" . $INactivityType ." group by _in_month) AS A, " .
+			"( select concat(year(date), '-', month(date)) as _out_month, sum(activities.amount) AS _out_value FROM activities where type=". $OUTactivityType ." group by _out_month ) AS B " .
+			"WHERE A._in_month = B._out_month " .
+			"order by name";
+		$result = ProjectMgr::executeQuery($query);
+		$rows = array();
+		while($r = mysql_fetch_assoc($result)) {
 			$rows['data'][] = $r;
 		}
 		if (!isset($rows['data'])) {
@@ -47,9 +67,7 @@ class ChartMgr {
 				. "` ORDER BY sum(amount) DESC limit " . $limit;
 		$result = ProjectMgr::executeQuery($query);
 		$rows = array();
-		$i = 0;
 		while($r = mysql_fetch_assoc($result)) {
-			$i++;
 			$rows['data'][] = $r;
 		}
 		
