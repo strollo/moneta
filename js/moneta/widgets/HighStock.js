@@ -12,7 +12,7 @@ function buildHighStock(self, response) {
 				display: 'none'
 			}
 		},
-		 legend: {
+		legend: {
 	    	enabled: true,
 	    	align: 'right',
         	backgroundColor: '#FCFFC5',
@@ -23,6 +23,7 @@ function buildHighStock(self, response) {
 	    	y: 100,
 	    	shadow: true
 	    },
+		
 		series : [],
 		xAxis: {	
 			// Needed for many points
@@ -32,6 +33,14 @@ function buildHighStock(self, response) {
 		credits: {enabled: false},
 		rangeSelector : {
 			selected : 1
+		},
+		yAxis : {
+			plotLines : [{
+				value : 0,
+				color : 'red',
+				dashStyle : 'shortdash',
+				width : 2
+			}]
 		},
 	}; 
 	res = Ext.JSON.decode(response.responseText);
@@ -48,6 +57,11 @@ function buildHighStock(self, response) {
 		chartOptions.series[i] = new Object();
 		chartOptions.series[i].name = res.data[i].label;
 		chartOptions.series[i].data = gdata;
+		chartOptions.series[i].shadow = true;
+		chartOptions.series[i].marker = {
+			enabled : true,
+			radius : 3
+		};
 	}
 	
 	var retval = new Highcharts.StockChart(chartOptions);			
@@ -202,5 +216,9 @@ Ext.define('moneta.widgets.HighStock', {
 		moneta.Globals.fn.checkParam(me, cfg, 'title', false);
 		me.config.successHandler = handleStockAjax;
 		me.callParent([Ext.apply(me.config, cfg)]);
-	}
+	},
+	onDestroy: function () {
+		moneta.Globals.fn.clog('Destroying HighStock: [' + this.id + ']');
+		return true;
+	},
 });
