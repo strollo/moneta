@@ -13,13 +13,7 @@ function buildHighStock(self, response) {
 				display: 'none'
 			}
 		},
-		series : [
-			{	
-				tooltip: {
-					valueDecimals: 2
-				}
-			}
-		],
+		series : [],
 		xAxis: {	
 			// Needed for many points
 			// Due to bug http://jsfiddle.net/highcharts/FQm4E/1/
@@ -32,20 +26,19 @@ function buildHighStock(self, response) {
 	}; 
 	res = Ext.JSON.decode(response.responseText);
 	
-	var gdata = new Array();
 	// Maps json response [name,value] to the highcharts required format
 	for (var i = 0; i < res.data.length; i++) {
-		var elem = new Array();
-		elem[0] = parseInt(res.data[i].name);
-		elem[1] = parseFloat(res.data[i].value);
-		gdata.push(elem);
+		var gdata = new Array();
+		for (var j = 0; j < res.data[i].data.length; j++) {
+			var elem = new Array();
+			elem[0] = parseInt(res.data[i].data[j].name);
+			elem[1] = parseFloat(res.data[i].data[j].value);
+			gdata.push(elem);
+		}
+		chartOptions.series[i] = new Object();
+		chartOptions.series[i].name = res.data[i].label;
+		chartOptions.series[i].data = gdata;
 	}
-	chartOptions.series[0].name = 'Value';
-	chartOptions.series[0].data = gdata;
-	/*
-	chartOptions.series[0].pointInterval = 10 * 24 * 3600 * 1000; // 10 days
-	chartOptions.series[0].ordinalSlope = null;
-	*/
 	
 	var retval = new Highcharts.StockChart(chartOptions);			
 	retval.options.series = chartOptions.series;

@@ -28,36 +28,81 @@ class ChartMgr {
 		self::$log->info('getByTag');
 		$query = "select UNIX_TIMESTAMP(date)*1000 as name, activities.amount as value FROM activities where type=" . $activityType . " order by date";
 		$result = ProjectMgr::executeQuery($query);
+		$retval = array();
 		$rows = array();
+		$elem = array();
 		while($r = mysql_fetch_assoc($result)) {
 			$rows['data'][] = $r;
 		}
 		if (!isset($rows['data'])) {
 			return $rows;
 		}		
-		return $rows['data'];
+		$elem['label'] = 'Stock';
+		$elem['data'] = $rows['data'];
+		$retval[] = $elem;
+		return $retval;
 	}
 	
-	/**
-	 * Gives for each month the trend incomes/expenses difference.
-	 */
-	static function getNetGrossTrend() {
-		self::$log->info('getNetGrossTrend');
+	static function buildTotIncomes() {
+		self::$log->info('buildTotOutgoings');
 		$query = 
-			"select UNIX_TIMESTAMP(A.date)*1000 AS name, (A._in_value - B._out_value) AS value from" .
+			"select UNIX_TIMESTAMP(concat(year(date), '/', month(date), '/01')) * 1000 AS name, sum(activities.amount) AS value " . 
+			"FROM activities where activities.`from` IN (select id from accounts where type=4) group by concat(year(date), '-', month(date))" .
+			"order by name";
+		$result = ProjectMgr::executeQuery($query);
+		$retval = array();
+		$rows = array();
+		while($r = mysql_fetch_assoc($result)) {
+			$rows['data'][] = $r;
+		}
+		$retval['label'] = 'Incomes';
+		$retval['data'] = $rows['data'];
+
+		return $retval;
+	}
+	
+	static function buildTotOutgoings() {
+		self::$log->info('buildTotOutgoings');
+		$query = 
+			"select UNIX_TIMESTAMP(concat(year(date), '/', month(date), '/01')) * 1000 AS name, sum(activities.amount) AS value " . 
+			"FROM activities where activities.`to` IN (select id from accounts where type=5) group by concat(year(date), '-', month(date))" .
+			"order by name";
+		$result = ProjectMgr::executeQuery($query);
+		$retval = array();
+		$rows = array();
+		while($r = mysql_fetch_assoc($result)) {
+			$rows['data'][] = $r;
+		}
+		$retval['label'] = 'OutGoings';
+		$retval['data'] = $rows['data'];
+		return $retval;
+	}
+	static function buildTotNetGross() {
+		self::$log->info('buildTotNetGross');
+		$query = 
+			"select UNIX_TIMESTAMP(concat(year(date), '/', month(date), '/01')) * 1000 AS name, (A._in_value - B._out_value) AS value from " .
 			"( select date, concat(year(date), '-', month(date)) as _in_month, sum(activities.amount) AS _in_value FROM activities where activities.`from` IN (select id from accounts where type=4) group by _in_month) AS A, " .
 			"( select concat(year(date), '-', month(date)) as _out_month, sum(activities.amount) AS _out_value FROM activities where activities.`to` IN (select id from accounts where type=5) group by _out_month ) AS B " .
 			"WHERE A._in_month = B._out_month " .
 			"order by name";
 		$result = ProjectMgr::executeQuery($query);
+		$retval = array();
 		$rows = array();
 		while($r = mysql_fetch_assoc($result)) {
 			$rows['data'][] = $r;
 		}
-		if (!isset($rows['data'])) {
-			return $rows;
-		}		
-		return $rows['data'];
+		$retval['label'] = 'NetGross';
+		$retval['data'] = $rows['data'];
+		return $retval;
+	}
+	
+	static function getNetGrossTrend() {
+		self::$log->info('getNetGrossTrend');
+		$retval = array();
+		$retval['data'][] = ChartMgr::buildTotNetGross();
+		$retval['data'][] = ChartMgr::buildTotIncomes();
+		$retval['data'][] = ChartMgr::buildTotOutgoings();
+		return $retval['data'];
 	}
 	
 	static function getChartData($activityType, $groupBy='tag', $limit=10) {
