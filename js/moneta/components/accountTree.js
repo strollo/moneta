@@ -44,6 +44,19 @@ function getTreeSelectedItems() {
  *********************************************************************/
 var mnuAccounts = new Ext.menu.Menu({
 	items: [
+		{text: 'Details',
+			listeners: { click: function(event, node, x, y){ 
+				try {
+					var node = getTreeSelectedItems().get(0).raw;
+					if (node) {
+						showDetails(node.key, null, null, node.text);
+					}
+				} catch (e) {
+					moneta.Globals.fn.clog(e);
+				}
+			}}
+		},
+		'-',
 		{text: 'Add Account',
 			listeners: { click: function(event, node, x, y){ 
 				var selNodes = getTreeSelectedItems();
@@ -55,7 +68,7 @@ var mnuAccounts = new Ext.menu.Menu({
 				}
 				createAccount(accountName);
 			}}
-		},
+		},		
 	]
 });	
  
@@ -66,7 +79,7 @@ var mnuAccount = new Ext.menu.Menu({
 				try {
 					var node = getTreeSelectedItems().get(0).raw;
 					if (node) {
-						showDetails(null, node.key, node.text);
+						showDetails(null, null, node.key, node.text);
 					}
 				} catch (e) {
 					moneta.Globals.fn.clog(e);
@@ -100,7 +113,7 @@ var mnuActivityDetails = new Ext.menu.Menu({
 				try {
 					var node = getTreeSelectedItems().get(0).raw;
 					if (node) {
-						showDetails(node.activity_id, node.account_id, node.text);
+						showDetails(null, node.activity_id, node.account_id, node.text);
 					}
 				} catch (e) {
 					moneta.Globals.fn.clog(e);

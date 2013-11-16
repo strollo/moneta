@@ -32,7 +32,7 @@ var grid = Ext.create('moneta.widgets.SmartGrid', {
  * and a ledger it, it returns all the values for it.
  * notice: if the ledger is null the global value of type is returned.
  */
-function showDetails(activityType, accountID, _title) {
+function showDetails(accountGroup, activityType, accountID, _title) {
 	// The panel that will contain the grid
 	container = Ext.create('Ext.panel.Panel', {
 		id: 'moneta.widgets.wnAccount.grid',
