@@ -46,8 +46,16 @@ function buildHighStock(self, response) {
 	res = Ext.JSON.decode(response.responseText);
 	
 	// Maps json response [name,value] to the highcharts required format
+	if (!res.data) {
+		return null;
+	}
 	for (var i = 0; i < res.data.length; i++) {
 		var gdata = new Array();
+		
+		if (!res.data[i].data) {
+			return null;
+		}
+		
 		for (var j = 0; j < res.data[i].data.length; j++) {
 			var elem = new Array();
 			elem[0] = parseInt(res.data[i].data[j].name);
