@@ -72,7 +72,7 @@ class ActivityMgr {
 			$in_out_account = Utils::getParam($get, 'account') or null;
 			$to_acct = Utils::getParam($get, 'to') or null;
 			$filters = Utils::getParam($get, 'filter') or null;
-			$group_id = Utils::getParam($get, 'group') or null;
+			$group_id = Utils::getParam($get, 'acct_group') or null;
 		}
 	
 		// PREPARES THE QUERY with filters
@@ -110,7 +110,6 @@ class ActivityMgr {
 			}
 			$query = $query . "(`to`=" . $in_out_account . " OR `from`=" . $in_out_account . ") ";
 		}
-		self::$log->info($query);
 		if (!is_null($group_id)) {
 			if (!$hasWhere) {
 				$query = $query . " WHERE ";
@@ -119,7 +118,6 @@ class ActivityMgr {
 				$query = $query . " AND ";
 			}
 			$query = $query . "(`from` IN (select id from accounts where `type` = " . $group_id . ") or `to` IN (select id from accounts where `type` = " . $group_id . "))";
-			self::$log->info($query);
 		}
 		if (!is_null($filters)) {
 			$_filterArray = JSON::fromString($filters);
@@ -166,7 +164,7 @@ class ActivityMgr {
 			$from_acct = Utils::getParam($get, 'from') or null;
 			$in_out_account = Utils::getParam($get, 'account') or null;
 			$to_acct = Utils::getParam($get, 'to') or null;
-			$group_id = Utils::getParam($get, 'group') or null;
+			$group_id = Utils::getParam($get, 'acct_group') or null;
 			$filters = Utils::getParam($get, 'filter') or null;
 			$start = Utils::getParam($get, 'start') or null;
 			$limit = Utils::getParam($get, 'limit') or null;
@@ -232,7 +230,6 @@ class ActivityMgr {
 				$query = $query . " AND ";
 			}
 			$query = $query . "(`from` IN (select id from accounts where `type` = " . $group_id . ") or `to` IN (select id from accounts where `type` = " . $group_id . "))";
-			self::$log->info($query);
 		}
 		if (!is_null($filters)) {
 			$_filterArray = JSON::fromString($filters);
