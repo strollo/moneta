@@ -92,4 +92,8 @@ Ext.define("moneta.widgets.ToggableWindow",
 	// just the first time.
 	onInit: function () {},
 	
+	onDestroy: function () {
+		moneta.Globals.fn.clog('Destroying ToggableWindow: [' + this.id + ']');
+		return true;
+	},
 });
