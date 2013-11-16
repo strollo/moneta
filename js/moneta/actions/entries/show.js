@@ -46,7 +46,7 @@ function showDetails(accountGroup, activityType, accountID, _title) {
 	}
 	win.addComponent('center', container, null /* no header */);
 	// The target URL
-	var url = moneta.Globals.data.DATA_ENTRY_DETAILS + '?node=root' + (activityType ? ('&type=' + activityType) : '') + (accountID ? ('&account=' + accountID) : '');
+	var url = moneta.Globals.data.DATA_ENTRY_DETAILS + '?node=root' + (accountGroup ? ('&group=' + accountGroup) : '') + (activityType ? ('&type=' + activityType) : '') + (accountID ? ('&account=' + accountID) : '');
 	// The store
         var gridStore = Ext.create('moneta.store.SmartStore', 'moneta.model.Entry', url, 'data',
 		// custom params
