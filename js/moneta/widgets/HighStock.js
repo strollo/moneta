@@ -49,6 +49,10 @@ function buildHighStock(self, response) {
 	if (!res.data) {
 		return null;
 	}
+	
+	var total = 0;
+	var min = 0;
+	var max = 0;
 	for (var i = 0; i < res.data.length; i++) {
 		var gdata = new Array();
 		
@@ -61,6 +65,17 @@ function buildHighStock(self, response) {
 			elem[0] = parseInt(res.data[i].data[j].name);
 			elem[1] = parseFloat(res.data[i].data[j].value);
 			gdata.push(elem);
+			
+			// Evaluates the average amount of first series
+			if (i==0) {
+				total += parseFloat(res.data[i].data[j].value);
+				if (parseFloat(res.data[i].data[j].value) < min) {
+					min = parseFloat(res.data[i].data[j].value);
+				}
+				if (parseFloat(res.data[i].data[j].value) > max) {
+					max = parseFloat(res.data[i].data[j].value);
+				}
+			}
 		}
 		chartOptions.series[i] = new Object();
 		chartOptions.series[i].name = res.data[i].label;
@@ -72,6 +87,27 @@ function buildHighStock(self, response) {
 		};
 	}
 	
+	// adds a line to represent the average of first series
+	try {
+		var average = new Object();
+		average.value = parseFloat(total / res.data[0].data.length).toFixed(2);
+		average.color = 'green';
+		average.dashStyle = 'shortdash';
+		average.width = 1;
+		
+		average.label = {
+			text: 'avg',
+			align: 'right',			
+		};
+		
+		chartOptions.yAxis.plotLines[1] = average;
+		
+		chartOptions.subtitle = new Object();
+		chartOptions.subtitle.useHTML = true;
+		chartOptions.subtitle.text = '<b>' + res.data[0].label + '</b>&nbsp;-&gt;&nbsp;&nbsp;<b>Avg:</b>&nbsp;(' + average.value + ')&nbsp;<b>Min:</b>&nbsp;(' + min + ')&nbsp;<b>Max:</b>&nbsp;(' + max + ')';
+	} catch (e) {
+		moneta.Globals.fn.clog(e);
+	}
 	var retval = new Highcharts.StockChart(chartOptions);			
 	retval.options.series = chartOptions.series;
 	return retval;

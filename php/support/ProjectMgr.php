@@ -31,6 +31,40 @@ class ProjectMgr {
 		}
 	}
 	
+	static function backup($prj) {
+		$backupDir = $BASEPATH . "/temp/";
+		if (!file_exists($backupDir)) {
+			if (!mkdir($backupDir, 0700, true)) {
+				die('Failed to create folder... ' . $backupDir);
+			}
+		}
+	
+		$backupFile = $backupDir . "/temp/file.zip";
+		
+		$command = 'mysqldump'
+			. ' --host=' . Utils::strTrim($prj->dbhost)
+			. ' --user=' . Utils::strTrim($prj->dbuser)
+			. ' --password=' . Utils::strTrim($prj->dbpassword)
+			. ' --port=' . Utils::strTrim($prj->dbport)
+			. ' ' . $prj->name
+			. ' > ' . $backupFile;
+		$output = shell_exec($command);
+		
+		
+        if (file_exists($backupFile)) {
+            header($_SERVER["SERVER_PROTOCOL"] . " 200 OK");
+            header("Cache-Control: public"); // needed for i.e.
+            header("Content-Type: application/zip");
+            header("Content-Transfer-Encoding: Binary");
+            header("Content-Length:" . filesize($backupFile));
+            header("Content-Disposition: attachment; filename=" . $backupFile);
+            readfile($backupFile);
+            die();        
+        } else {
+            die("Error: File not found.");
+        } 
+	}
+	
 	/*
 	 * Returns the list on which the current user is enabled.
 	 * Uses the json representation.
