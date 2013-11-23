@@ -31,34 +31,38 @@ class ProjectMgr {
 		}
 	}
 	
-	static function backup($prj) {
-		$backupDir = $BASEPATH . "/temp/";
-		if (!file_exists($backupDir)) {
-			if (!mkdir($backupDir, 0700, true)) {
-				die('Failed to create folder... ' . $backupDir);
-			}
+	/*
+	 * From the project ID gives its decriptor
+	 */
+	static function getPrjDescr($prjID) {
+		$query = "select * from projects WHERE id = " . $prjID;
+		$result = MonetaDB::executeQuery($query);
+		while ($row = mysql_fetch_assoc($result)) {
+			return $row;
 		}
+	}
 	
-		$backupFile = $backupDir . "/temp/file.zip";
+	static function backup($prjID) {
+		$prj = ProjectMgr::getPrjDescr($prjID);
+		$temp_file = tempnam(sys_get_temp_dir(), 'Moneta');
 		
 		$command = 'mysqldump'
-			. ' --host=' . Utils::strTrim($prj->dbhost)
-			. ' --user=' . Utils::strTrim($prj->dbuser)
-			. ' --password=' . Utils::strTrim($prj->dbpassword)
-			. ' --port=' . Utils::strTrim($prj->dbport)
-			. ' ' . $prj->name
-			. ' > ' . $backupFile;
-		$output = shell_exec($command);
+			. ' --host=' . Utils::strTrim($prj['dbhost'])
+			. ' --user=' . Utils::strTrim($prj['dbuser'])
+			. ' --password=' . Utils::strTrim($prj['dbpassword'])
+			. ' --port=' . Utils::strTrim($prj['dbport'])
+			. ' ' . $prj['name']
+			. ' > ' . $temp_file;
+		$output = shell_exec($command);	
 		
-		
-        if (file_exists($backupFile)) {
+        if (file_exists($temp_file)) {
             header($_SERVER["SERVER_PROTOCOL"] . " 200 OK");
             header("Cache-Control: public"); // needed for i.e.
-            header("Content-Type: application/zip");
+            header("Content-Type: application/sql");
             header("Content-Transfer-Encoding: Binary");
-            header("Content-Length:" . filesize($backupFile));
-            header("Content-Disposition: attachment; filename=" . $backupFile);
-            readfile($backupFile);
+            header("Content-Length:" . filesize($temp_file));
+            header("Content-Disposition: attachment; filename=" . $prj['name'] . ".sql");
+            readfile($temp_file);
             die();        
         } else {
             die("Error: File not found.");
