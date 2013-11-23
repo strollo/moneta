@@ -46,7 +46,8 @@ Ext.define('moneta.widgets.UploadWindow', {
 				form.submit({
 					//waitMsg: 'Uploading your data...',
 					success: function(fp, o) {
-						container.showMsg('Success', 'Processed file "' + o.result.file + '" on the server');
+						container.showMsg('Success', o.result.data);
+						container.close();
 					},
 					failure: function(form, action) {
 						container.showMsg('Failed', action.result.msg);
@@ -55,17 +56,13 @@ Ext.define('moneta.widgets.UploadWindow', {
 			}
 		}
 	},
-	/*
-	{
-		text: 'Reset',
-		handler: function() {
-			this.up('form').getForm().reset();
-		}
-	}
-	*/
 	],
 	
 	constructor: function(cfg) {
+		if (Ext.getCmp(moneta.Globals.id.UI_WIN_RESTORE)) {
+			return Ext.getCmp(moneta.Globals.id.UI_WIN_RESTORE);
+		}
+	
 		var me = this;
 		me.callParent([Ext.apply(me.config, cfg)]);
 		
@@ -142,5 +139,8 @@ Ext.define('moneta.widgets.UploadWindow', {
 			], // endof panel items
 		});
 		me.add(form);
+		me.on('show', function(self, eOpts) {
+			self.setSize(self.getWidth(), self.getHeight());
+		});
 	}
 });

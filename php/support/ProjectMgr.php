@@ -109,8 +109,7 @@ class ProjectMgr {
 		
 		ProjectMgr::createProjectDB($prj, $tmpDestFile);
 		ProjectMgr::create($prj);
-		
-		JSON::sendSuccess("Restored project: " . $prj->name);
+		JSON::sendJSONResult($req, 'Restored project: ' . $prj->name);
 		die();
 	}
 	
