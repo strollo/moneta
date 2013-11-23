@@ -58,6 +58,13 @@ var mnuProjects = Ext.create('Ext.menu.Item', {
 	},
 	icon: 'icons/projects.png'
 });
+var mnuBackup = Ext.create('Ext.menu.Item', {
+	text: 'Backup projects',
+	handler: function(){ 
+		backupProject();
+	},
+	icon: 'icons/projects.png'
+});
 var mnuAssets = Ext.create('Ext.menu.Item', {
 	text: 'Accounts',
 	icon: 'icons/bank.png',
@@ -152,6 +159,7 @@ Ext.define("moneta.widgets.MainMenu",
 				items: [
 					mnuUsers,
 					mnuProjects,
+					mnuBackup,
 				]
 			})
         },

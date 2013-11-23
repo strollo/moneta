@@ -62,24 +62,25 @@ class ProjectMgr {
 		$output = shell_exec($command);	
 		
         if (file_exists($temp_file)) {
-			$out_ext = '.sql';
+			$out_ext = 'sql';
 		
 			// Try to compress file
 			if (FileMgr::create_zip(array(array($temp_file, 'db.sql')), $temp_file . ".zip")) {
 				$temp_file = $temp_file . ".zip";
-				$out_ext = '.zip';
+				$out_ext = 'zip';
 			}
 			
 			$currdate = date('_Y-m-d');
 		
             header($_SERVER["SERVER_PROTOCOL"] . " 200 OK");
             header("Cache-Control: public"); // needed for i.e.
-            header("Content-Type: application/sql");
+			header("Content-Type: application/octet-stream");
+			header("Content-Type: application/download");
+            header("Content-Type: application/" . $out_ext);
             header("Content-Transfer-Encoding: Binary");
             header("Content-Length:" . filesize($temp_file));
-            header("Content-Disposition: attachment; filename=" . $prj['name'] . $currdate . $out_ext);
+            header("Content-Disposition: attachment; filename=" . $prj['name'] . $currdate . "." . $out_ext);
             readfile($temp_file);
-			
 			die();
         } else {
 			JSON::sendError("Error: File not found.");

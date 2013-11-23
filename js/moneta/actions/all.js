@@ -6,6 +6,7 @@ var currPath = 'js/moneta/actions';
 console.log('Loading from ... ' + currPath);
 Ext.Loader.loadScript( currPath + '/about.js' );
 Ext.Loader.loadScript( currPath + '/chooseProject.js' );
+Ext.Loader.loadScript( currPath + '/backupProject.js' );
 Ext.Loader.loadScript( currPath + '/showProjects.js' );
 Ext.Loader.loadScript( currPath + '/showUsers.js' );
 Ext.Loader.loadScript( currPath + '/showCharts.js' );
