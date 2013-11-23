@@ -118,7 +118,8 @@ Ext.define('moneta.widgets.UploadWindow', {
 					fieldLabel: 'Password',
 					layout: 'fit',
 					width: 'auto',
-					name: 'prj-pwd'
+					name: 'prj-pwd',					
+					inputType: 'password',
 				},
 				{
 					xtype: 'filefield',

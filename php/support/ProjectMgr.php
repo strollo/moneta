@@ -21,6 +21,7 @@ include_once $BASEPATH . '/support/FileMgr.php';
 class ProjectMgr {	
 	public static $log;
 	public static $showQueries = true;
+	const BACKUP_EXTENSION = '.mon';
 	
 	static function init()
 	{	
@@ -52,12 +53,12 @@ class ProjectMgr {
 	}
 	
 	static function restore($req) {
-		$allowedExts = array("zip", "sql", "mon", "png");
+		$allowedExts = array(ProjectMgr::BACKUP_EXTENSION);
 		
 		$file = $_FILES["project-path"];
 		$temp = explode(".", $file["name"]);
 		self::$log->info("[RESTORE] received file: " . $file["name"]);
-		$extension = end($temp);
+		$extension = '.' . end($temp);
 		
 		$prj = new stdClass();
 		
@@ -68,7 +69,7 @@ class ProjectMgr {
 		$prj->dbport = ProjectMgr::getParam($req, 'prj-port');
 		
 		if (!(
-			($file["type"] == "application/zip") || ($file["type"] == "application/octet-stream") || ($file["type"] == "image/png") 
+			($file["type"] == "application/zip") || ($file["type"] == "application/octet-stream")
 			&& in_array($extension, $allowedExts))) {
 			JSON::sendError("Invalid file extension");
 			die();
@@ -86,15 +87,21 @@ class ProjectMgr {
 			self::$log->info("Size: " . ($file["size"] / 1024) . " kB");
 			self::$log->info("Temp file: " . $file["tmp_name"]);
 			$temp = explode("/", $file["tmp_name"]);
-			self::$log->info("Temp filename: " . end($temp));
+			$tmpOrigFile = end($temp);
+			self::$log->info("Temp filename: " . $tmpOrigFile);
 
-			$tmpDestFile = "/tmp/" . $file["tmp_name"] . '/db.sql';
+			$tmpDestDir = ConfReader::getProjectPath() . '/cache/';
+			if (!file_exists($tmpDestDir)) {
+				if (!mkdir($tmpDestDir, 0700, true)) {
+					die('Failed to create folder... ' . $tmpDestDir);
+				}
+			}
+			$tmpDestFile = $tmpDestDir . $tmpOrigFile . '/db.sql';
 			
 			if (file_exists($tmpDestFile)) {
 				self::$log->info($tmpDestFile . " already exists. ");
 			} else {
-				FileMgr::unzip_file($file["tmp_name"], "/tmp/" . $file["tmp_name"]);
-				move_uploaded_file($file["tmp_name"], "/tmp/" . $file["name"]);
+				FileMgr::unzip_file($file["tmp_name"], $tmpDestDir . $tmpOrigFile);
 				self::$log->info("Found backup descr: " . file_exists($tmpDestFile));
 				self::$log->info("Stored in: " . $tmpDestFile);
 			}
@@ -102,6 +109,8 @@ class ProjectMgr {
 		
 		ProjectMgr::createProjectDB($prj, $tmpDestFile);
 		ProjectMgr::create($prj);
+		
+		JSON::sendSuccess("Restored project: " . $prj->name);
 		die();
 	}
 	
@@ -132,9 +141,9 @@ class ProjectMgr {
 			$out_ext = 'sql';
 		
 			// Try to compress file
-			if (FileMgr::create_zip(array(array($temp_file, 'db.sql')), $temp_file . ".zip")) {
-				$temp_file = $temp_file . ".zip";
-				$out_ext = 'zip';
+			if (FileMgr::create_zip(array(array($temp_file, 'db.sql')), $temp_file . ProjectMgr::BACKUP_EXTENSION)) {
+				$temp_file = $temp_file . ProjectMgr::BACKUP_EXTENSION;
+				$out_ext = ProjectMgr::BACKUP_EXTENSION;
 			}
 			
 			$currdate = date('_Y-m-d');
@@ -146,7 +155,7 @@ class ProjectMgr {
             header("Cache-Control: public"); // needed for i.e.
 			header("Content-Type: application/octet-stream");
             header("Content-Transfer-Encoding: Binary");
-            header("Content-Disposition: attachment; filename=" . $prj['name'] . $currdate . "." . $out_ext);
+            header("Content-Disposition: attachment; filename=" . $prj['name'] . $currdate . $out_ext);
 			
 			# Endof Fix for avoiding extra bytes at beginning or within zipfile
 			ob_clean();   // discard any data in the output buffer (if possible)
