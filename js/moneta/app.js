@@ -2,6 +2,7 @@
 
 Ext.define("moneta.app.Application",
 	{
+		waitMsg: 'Loading application...',
 		requires: ["Ext.draw.Color", "Ext.chart.theme.Theme", "moneta.Globals.id", "moneta.Globals.fn", "moneta.Globals.widgets", "moneta.widgets.MainMenu"],
 		extend: "Ext.container.Viewport",
 		id: moneta.Globals.id.UI_APPLICATION,

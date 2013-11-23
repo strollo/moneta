@@ -31,11 +31,7 @@ if ($req['action'] == 'backup') {
 	ProjectMgr::backup(json_decode($req['id']));
 	return;
 } else if ($req['action'] == 'restore') {
-	if (!isset($req['id'])) {
-		JSON::sendError('Cannot execute backup. No project selected.');
-		die();
-	}
-	ProjectMgr::restore(json_decode($req['id']));
+	ProjectMgr::restore($req);
 	return;
 } else {
 	JSON::sendError('Invalid request or action');

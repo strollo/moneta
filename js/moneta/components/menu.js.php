@@ -65,6 +65,13 @@ var mnuBackup = Ext.create('Ext.menu.Item', {
 	},
 	icon: 'icons/backup.png'
 });
+var mnuRestore = Ext.create('Ext.menu.Item', {
+	text: 'Restore projects',
+	handler: function(){ 
+		restoreProject();
+	},
+	icon: 'icons/restore.png'
+});
 var mnuAssets = Ext.create('Ext.menu.Item', {
 	text: 'Accounts',
 	icon: 'icons/bank.png',
@@ -160,6 +167,7 @@ Ext.define("moneta.widgets.MainMenu",
 					mnuUsers,
 					mnuProjects,
 					<?php if (isUser() || isAdmin()) : ?> mnuBackup, <?php endif ?>
+					<?php if (isUser() || isAdmin()) : ?> mnuRestore, <?php endif ?>					
 				]
 			})
         },

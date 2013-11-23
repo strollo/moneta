@@ -6,6 +6,7 @@
 Ext.define('moneta.widgets.EmbeddedWindow', {
 	extend: 'Ext.window.Window',
 	xtype: 'embedded-window',	
+	autoDestroy: true,
 
 	// The default initial configuration
 	config: {

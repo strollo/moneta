@@ -22,6 +22,19 @@ class FileMgr {
 			self::$log = new Log('FileMgr');
 		}
 	}
+	
+	function unzip_file($file, $path) {
+		$zip = new ZipArchive;
+		$res = $zip->open($file);
+		self::$log->info('Decompressing ' . $file . ' in ' . $path);
+		if ($res === TRUE) {
+		  $zip->extractTo($path);
+		  $zip->close();
+		  self::$log->info('Correctly decompressed ' . $file);
+		} else {
+			self::$log->err('Error in decompressing ' . $file);
+		}
+	}
 
 	/* creates a compressed zip file */
 	function create_zip($files = array(), $destination = null, $overwrite = false) {

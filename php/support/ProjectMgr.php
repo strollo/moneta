@@ -43,6 +43,68 @@ class ProjectMgr {
 		}
 	}
 	
+	static function getParam($req, $key) {
+		if (!isset($req[$key])) {
+			JSON::sendError("Invalid or missing param " . $key);
+			die();
+		}
+		return $req[$key];
+	}
+	
+	static function restore($req) {
+		$allowedExts = array("zip", "sql", "mon", "png");
+		
+		$file = $_FILES["project-path"];
+		$temp = explode(".", $file["name"]);
+		self::$log->info("[RESTORE] received file: " . $file["name"]);
+		$extension = end($temp);
+		
+		$prj = new stdClass();
+		
+		$prj->name = ProjectMgr::getParam($req, 'prj-name');
+		$prj->dbhost = ProjectMgr::getParam($req, 'prj-host');
+		$prj->dbuser = ProjectMgr::getParam($req, 'prj-user');
+		$prj->dbpassword = ProjectMgr::getParam($req, 'prj-pwd');
+		$prj->dbport = ProjectMgr::getParam($req, 'prj-port');
+		
+		if (!(
+			($file["type"] == "application/zip") || ($file["type"] == "application/octet-stream") || ($file["type"] == "image/png") 
+			&& in_array($extension, $allowedExts))) {
+			JSON::sendError("Invalid file extension");
+			die();
+		}
+		if ($file["size"] > 200000) {
+			JSON::sendError("Invalid file size");
+			die();
+		}
+
+		if ($file["error"] > 0) {
+			self::$log->info("Return Code: " . $file["error"]);
+		} else {
+			self::$log->info("Upload: " . $file["name"]);
+			self::$log->info("Type: " . $file["type"]);
+			self::$log->info("Size: " . ($file["size"] / 1024) . " kB");
+			self::$log->info("Temp file: " . $file["tmp_name"]);
+			$temp = explode("/", $file["tmp_name"]);
+			self::$log->info("Temp filename: " . end($temp));
+
+			$tmpDestFile = "/tmp/" . $file["tmp_name"] . '/db.sql';
+			
+			if (file_exists($tmpDestFile)) {
+				self::$log->info($tmpDestFile . " already exists. ");
+			} else {
+				FileMgr::unzip_file($file["tmp_name"], "/tmp/" . $file["tmp_name"]);
+				move_uploaded_file($file["tmp_name"], "/tmp/" . $file["name"]);
+				self::$log->info("Found backup descr: " . file_exists($tmpDestFile));
+				self::$log->info("Stored in: " . $tmpDestFile);
+			}
+		}
+		
+		ProjectMgr::createProjectDB($prj, $tmpDestFile);
+		ProjectMgr::create($prj);
+		die();
+	}
+	
 	static function backup($prjID) {
 		$prj = ProjectMgr::getPrjDescr($prjID);
 		if (is_null($prj)) {
@@ -57,8 +119,13 @@ class ProjectMgr {
 			. ' --user=' . Utils::strTrim($prj['dbuser'])
 			. ' --password=' . Utils::strTrim($prj['dbpassword'])
 			. ' --port=' . Utils::strTrim($prj['dbport'])
-			. ' ' . $prj['name']
+			# Tables to ignore
+			. ' --ignore-table=' . $prj['name'] . '.account_types' 
+			. ' --ignore-table=' . $prj['name'] . '.activity_types' 
+			. ' --ignore-table=' . $prj['name'] . '.activity_permissions' 
+			. ' --skip-triggers --disable-keys --no-create-info ' . $prj['name']
 			. ' > ' . $temp_file;
+		self::$log->info("executing backup: " . $command);
 		$output = shell_exec($command);	
 		
         if (file_exists($temp_file)) {
@@ -72,12 +139,21 @@ class ProjectMgr {
 			
 			$currdate = date('_Y-m-d');
 			
+			# Fix for avoiding extra bytes at beginning or within zipfile
+			ob_start("");
+			
 			header($_SERVER["SERVER_PROTOCOL"] . " 200 OK");
             header("Cache-Control: public"); // needed for i.e.
 			header("Content-Type: application/octet-stream");
             header("Content-Transfer-Encoding: Binary");
             header("Content-Disposition: attachment; filename=" . $prj['name'] . $currdate . "." . $out_ext);
+			
+			# Endof Fix for avoiding extra bytes at beginning or within zipfile
+			ob_clean();   // discard any data in the output buffer (if possible)
+			flush();
+			
             readfile($temp_file);
+						
 			die();
         } else {
 			JSON::sendError("Error: File not found.");
@@ -200,19 +276,33 @@ class ProjectMgr {
 
 	// Removes a project from the DB
 	static function delete($prj) {
+		# Removes from the configuration the project
 		self::$log->info('Delete project: ' . $prj->id . ':' . $prj->name);
 		$query = "delete from projects where name='" . Utils::strTrim($prj->name) . "' and id=" . $prj->id;
 		$result = MonetaDB::executeQuery($query, False);
+		
+		# Drops the database
+		$command = 'mysql'
+			. ' --host=' . Utils::strTrim($prj->dbhost)
+			. ' --user=' . Utils::strTrim($prj->dbuser)
+			. ' --password=' . Utils::strTrim($prj->dbpassword)
+			. ' --port=' . Utils::strTrim($prj->dbport)
+			. ' --execute="DROP DATABASE IF EXISTS ' . $prj->name . '"';
+		self::$log->warn('Executing: ' . $command);
+		shell_exec($command);
+		
 		return $result;
 	}
+	
 	// Creates a new project configuration
-	static function createProjectDB($prj) {
+	static function createProjectDB($prj, $backup_file = null) {
 		self::$log->info('Create prj: '. $prj->name);
 		
 		if (!mysql_select_db(Utils::strTrim($prj->name))) {
 			self::$log->warn('Creating database ... [' . Utils::strTrim($prj->name) . ']' . ' --> ' . dirname($_SERVER['PHP_SELF']));
 			
 			$script_path = dirname(__FILE__) . '/resources/project.sql';
+			
 			$command = 'mysql'
 					. ' --host=' . Utils::strTrim($prj->dbhost)
 					. ' --user=' . Utils::strTrim($prj->dbuser)
@@ -233,6 +323,19 @@ class ProjectMgr {
 			
 			self::$log->warn('Executing: ' . $command);
 			$output = shell_exec($command);
+			
+			if (!is_null($backup_file)) {
+				$command = 'mysql'
+						. ' --host=' . Utils::strTrim($prj->dbhost)
+						. ' --user=' . Utils::strTrim($prj->dbuser)
+						. ' --password=' . Utils::strTrim($prj->dbpassword)
+						. ' --port=' . Utils::strTrim($prj->dbport)
+						. ' --execute="SOURCE ' . $backup_file . '" '
+						. $prj->name;
+			
+				self::$log->warn('Executing: ' . $command);
+				$output = shell_exec($command);
+			}
 		}
 		return True;
 	}
