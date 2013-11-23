@@ -16,6 +16,7 @@ include_once $BASEPATH . '/support/MonetaDB.php';
 include_once $BASEPATH . '/support/Session.php';
 include_once $BASEPATH . '/support/Utils.php';
 include_once $BASEPATH . '/support/JSON.php';
+include_once $BASEPATH . '/support/FileMgr.php';
 
 class ProjectMgr {	
 	public static $log;
@@ -44,6 +45,11 @@ class ProjectMgr {
 	
 	static function backup($prjID) {
 		$prj = ProjectMgr::getPrjDescr($prjID);
+		if (is_null($prj)) {
+			JSON::sendError('Cannot execute backup. Invalid project selected.');
+			die();
+		}		
+		
 		$temp_file = tempnam(sys_get_temp_dir(), 'Moneta');
 		
 		$command = 'mysqldump'
@@ -56,16 +62,28 @@ class ProjectMgr {
 		$output = shell_exec($command);	
 		
         if (file_exists($temp_file)) {
+			$out_ext = '.sql';
+		
+			// Try to compress file
+			if (FileMgr::create_zip(array(array($temp_file, 'db.sql')), $temp_file . ".zip")) {
+				$temp_file = $temp_file . ".zip";
+				$out_ext = '.zip';
+			}
+			
+			$currdate = date('_Y-m-d');
+		
             header($_SERVER["SERVER_PROTOCOL"] . " 200 OK");
             header("Cache-Control: public"); // needed for i.e.
             header("Content-Type: application/sql");
             header("Content-Transfer-Encoding: Binary");
             header("Content-Length:" . filesize($temp_file));
-            header("Content-Disposition: attachment; filename=" . $prj['name'] . ".sql");
+            header("Content-Disposition: attachment; filename=" . $prj['name'] . $currdate . $out_ext);
             readfile($temp_file);
-            die();        
+			
+			die();
         } else {
-            die("Error: File not found.");
+			JSON::sendError("Error: File not found.");
+            die();
         } 
 	}
 	
