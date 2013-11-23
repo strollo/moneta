@@ -219,7 +219,7 @@ INSERT INTO `activity_types` (`id`,`name`,`description`,`from_sign`,`to_sign`,`i
  (4,'Credit Payments','Money transfers to credit cards or accounts that need reconciliation','-','=','ico-accounts-creditpayments'),
  (5,'Loans','Loans to persons','+','-','ico-accounts-loans'),
  (6,'Debts','Debts with persons','+','-','ico-accounts-debts'),
- (7,'Reconciliation','Reconciliation from Credit Cards, Loans, Debts...','-','+',NULL);
+ (7,'Reconciliation','Reconciliation from Credit Cards, Loans, Debts...','-','+','ico-accounts-reconciliation');
 
 INSERT INTO `activity_permissions` (`activity_type`,`from_acct_type`,`to_acct_type`) VALUES 
  (2,1,5),

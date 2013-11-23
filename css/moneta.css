@@ -15,16 +15,14 @@
 .ico-accounts-loans {left: 0; background-image: url('../icons/loans.png') !important;}
 .ico-accounts-debts {left: 0; background-image: url('../icons/debts.png') !important;}
 .ico-accounts-persons {left: 0; background-image: url('../icons/users.png') !important;}
-
-.ico-refresh {left: 0; background-image: url('../icons/refresh.png') !important;}
-
-
+.ico-accounts-reconciliation {left: 0; background-image: url('../icons/reconciliation.png') !important;}
 .ico-accounts-creditpayments{left: 0; background-image: url('../icons/ccpays.png') !important;}
 .ico-accounts-outtransfer {left: 0; background-image: url('../icons/outTransfer.png') !important;}
 .ico-accounts-expenses{left: 0; background-image: url('../icons/expenses.png') !important;}
 .ico-accounts-details{left: 0; background-image: url('../icons/details.png') !important;}
-
 .ico-accounts-summary{left: 0; background-image: url('../icons/summary.png') !important;}
+
+.ico-refresh {left: 0; background-image: url('../icons/refresh.png') !important;}
 
 .ico-plus{left: 0; background-image: url('../icons/plus.png') !important;}
 .ico-minus{left: 0; background-image: url('../icons/minus.png') !important;}

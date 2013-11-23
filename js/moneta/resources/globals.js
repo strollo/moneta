@@ -155,7 +155,7 @@ Ext.define("moneta.Globals.data", {
 	DATA_TAGS: PHP_BASE_DIR + '/data/tags.php',
 	DATA_PROJECTS: PHP_BASE_DIR + '/data/projects.php',
 	DATA_AVAILABLE_PROJECTS: PHP_BASE_DIR + '/data/availablePrjs.php',
-	DATA_BACKUP_PROJECT: PHP_BASE_DIR + '/data/projects.php',
+	DATA_BACKUP_PROJECT: PHP_BASE_DIR + '/data/backup.php',
 	DATA_SET_CURRENT_PROJECT: PHP_BASE_DIR + '/data/setCurrentPrj.php',
 	DATA_ACCOUNT_TYPES: PHP_BASE_DIR + '/data/account_types.php',
 });

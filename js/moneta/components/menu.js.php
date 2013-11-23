@@ -63,7 +63,7 @@ var mnuBackup = Ext.create('Ext.menu.Item', {
 	handler: function(){ 
 		backupProject();
 	},
-	icon: 'icons/projects.png'
+	icon: 'icons/backup.png'
 });
 var mnuAssets = Ext.create('Ext.menu.Item', {
 	text: 'Accounts',
@@ -144,7 +144,7 @@ Ext.define("moneta.widgets.MainMenu",
 					{ text: 'New Account', icon: 'icons/add_bank.png', handler: function(){ createAccount(); } },
 					{ text: 'New Operation', icon: 'icons/add_entry.png', handler: function(){ createEntry(); } },
 					'-',
-					{ text: 'Reconciliations', handler: function(){ showReconciliations(); }},
+					{ text: 'Reconciliations', icon: 'icons/reconciliation.png', handler: function(){ showReconciliations(); }},
 					'-',
 					{ text: 'Manage Tags', handler: function(){ showTags(); }, icon: 'icons/tags.png'},
 				]
@@ -159,7 +159,7 @@ Ext.define("moneta.widgets.MainMenu",
 				items: [
 					mnuUsers,
 					mnuProjects,
-					mnuBackup,
+					<?php if (isUser() || isAdmin()) : ?> mnuBackup, <?php endif ?>
 				]
 			})
         },

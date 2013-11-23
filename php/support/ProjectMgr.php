@@ -71,14 +71,11 @@ class ProjectMgr {
 			}
 			
 			$currdate = date('_Y-m-d');
-		
-            header($_SERVER["SERVER_PROTOCOL"] . " 200 OK");
+			
+			header($_SERVER["SERVER_PROTOCOL"] . " 200 OK");
             header("Cache-Control: public"); // needed for i.e.
 			header("Content-Type: application/octet-stream");
-			header("Content-Type: application/download");
-            header("Content-Type: application/" . $out_ext);
             header("Content-Transfer-Encoding: Binary");
-            header("Content-Length:" . filesize($temp_file));
             header("Content-Disposition: attachment; filename=" . $prj['name'] . $currdate . "." . $out_ext);
             readfile($temp_file);
 			die();

@@ -23,6 +23,27 @@ function backupProject(successCallback) {
 		forceSelection: true
 	});
 	
+	var backupPrj = function(form) {
+		if (form.isValid()) {
+			var exportApiUrl = form.url + '?';
+			var fields = form.getFieldValues();
+			for(param in fields) { exportApiUrl += '&' + param + '=' + fields[param]; }
+			//window.open(exportApiUrl);
+			
+			var _downloadWin = new Ext.Window ({
+			  height: 0, 
+			  width: 0, 
+			  title: 'External url', 
+			  // the only load text will be in case of error otherwise the binary data will be downloaded.
+			  html: '<iframe src="' + exportApiUrl + '" onload="moneta.Globals.handlers.checkAjaxResponse(this.contentDocument.body.innerText);"></iframe>'
+			});
+			// Does not really renders the window but simply invokes its internal url
+			_downloadWin.doAutoRender();
+			
+			win.close();
+		}
+	};
+	
 	// The target URL
 	var form = Ext.create('Ext.form.Panel', {
 		bodyPadding: 5,
@@ -56,24 +77,19 @@ function backupProject(successCallback) {
 			handler: function() {
 				var form = this.up('form').getForm();
 				
-				if (form.isValid()) {
-					var exportApiUrl = form.url + '?';
-					var fields = form.getFieldValues();
-					for(param in fields) { exportApiUrl += '&' + param + '=' + fields[param]; }
-					//window.open(exportApiUrl);
-					
-					var _downloadWin = new Ext.Window ({
-					  height: 0, 
-					  width: 0, 
-					  title: 'External url', 
-					  // the only load text will be in case of error otherwise the binary data will be downloaded.
-					  html: '<iframe src="' + exportApiUrl + '" onload="moneta.Globals.handlers.checkAjaxResponse(this.contentDocument.body.innerText);"></iframe>'
-					});
-					// Does not really renders the window but simply invokes its internal url
-					_downloadWin.doAutoRender();
-					
-					win.close();
-				}
+				Ext.Msg.show({
+					 title:'Backup selected project(s)?',
+					 msg: 'Are you sure?',
+					 buttons: Ext.Msg.OKCANCEL,
+					 icon: Ext.Msg.QUESTION,
+					 fn: function(btn, text){
+						if (btn == 'ok'){
+							backupPrj(form);
+						}
+					}
+				});	
+				
+				
 			}
 		}],
 		renderTo: Ext.getBody()
