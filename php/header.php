@@ -22,8 +22,14 @@
 ?>		
 		<!-- Moneta deps -->
 		<script type="text/javascript" src="js/moneta/resources/globals.js"></script>		
+		
+		<script type="text/javascript" src="js/moneta/session/SessionMgr.js"></script>
+		
 		<!-- Actions -->
 		<script type="text/javascript" src="js/moneta/actions/all.js"></script>		
+		
+		<script type="text/javascript" src="js/moneta/actions/onLogin.js"></script>	
+		
 		<!-- Smart widgets -->
 		<script type="text/javascript" src="js/moneta/smart/all.js"></script>		
 		<!-- Models -->
@@ -35,6 +41,8 @@
 		
 		<script type="text/javascript" src="js/moneta/components/accountTree.js"></script>
 		<script type="text/javascript" src="js/moneta/components/statusBar.js"></script>
+		
+		
 		
 		<!-- Widgets -->
 		<script type="text/javascript" src="js/moneta/widgets/all.js"></script>

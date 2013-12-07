@@ -6,6 +6,17 @@ Ext.define("moneta.Globals.configuration", {
 	DEBUG: true,
 });
 
+Ext.define("moneta.Globals.consts", {
+	singleton: true,
+	
+	// UI custom fields
+	WN_ACCOUNT_LABEL: 'Accounts',
+	
+	// For timing
+	ONESECOND: 1000,
+	ONEMINUTE: 60000,
+});
+
 Ext.define("moneta.Globals.deamons", {
 	singleton: true,
 	
@@ -51,6 +62,7 @@ Ext.define("moneta.Globals.id", {
 	UI_WIN_HELP: 'win::help',	
 	
 	UI_MNU_ALLOCATIONS: 'components::ui::allocations',	
+	TH_INACTIVITY_MON: 'moneta.daemons.InactivityMonitor',
 });
 
 Ext.define("moneta.Globals.handlers", {
@@ -76,13 +88,37 @@ Ext.define("moneta.Globals.handlers", {
 			   buttons: Ext.MessageBox.OK,
 			   icon: Ext.MessageBox.ERROR
 		   });
+		   return false;
 		}
+		return true;
 	}
 });
 
 
+
+Ext.define("moneta.SessionMrg.Config", {
+	singleton: true,
+	
+	inactivityTimeout: 10 * moneta.Globals.consts.ONEMINUTE,
+	pollActionParam: "a",
+	pollAction: "StayAlive",
+	pollInterval: moneta.Globals.consts.ONEMINUTE,
+	// how long should the messageBox wait (in seconds)?
+	messageBoxCountdown: 30, 
+});
+
+
+
 Ext.define("moneta.Globals.fn", {
 	singleton: true,
+	
+	resetTimeout: function (self) {
+		console.log('resetTimeout');
+		if (!self._inactivityTask) {
+			self._inactivityTask = new Ext.util.DelayedTask(self._beginCountdown, self);
+		}
+		self._inactivityTask.delay(moneta.SessionMrg.Config.inactivityTimeout);
+	},
 	
 	maskAll: function (msg) {
 		Ext.getCmp(moneta.Globals.id.UI_APPLICATION).mask(msg);
@@ -172,16 +208,10 @@ Ext.define("moneta.Globals.lists", {
 	LIST_GROUP_FIELDS: PHP_BASE_DIR + '/data/lists/groupfields.php',
 });
 
-Ext.define("moneta.Globals.consts", {
-	singleton: true,
-	
-	// UI custom fields
-	WN_ACCOUNT_LABEL: 'Accounts',
-});
-
-
 Ext.define("moneta.Globals.counters", {
 	singleton: true,
 	
 	ID_CHART: 1
 });
+
+
