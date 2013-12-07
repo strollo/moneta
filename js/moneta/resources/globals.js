@@ -11,10 +11,6 @@ Ext.define("moneta.Globals.consts", {
 	
 	// UI custom fields
 	WN_ACCOUNT_LABEL: 'Accounts',
-	
-	// For timing
-	ONESECOND: 1000,
-	ONEMINUTE: 60000,
 });
 
 Ext.define("moneta.Globals.deamons", {
@@ -94,31 +90,8 @@ Ext.define("moneta.Globals.handlers", {
 	}
 });
 
-
-
-Ext.define("moneta.SessionMrg.Config", {
-	singleton: true,
-	
-	inactivityTimeout: 10 * moneta.Globals.consts.ONEMINUTE,
-	pollActionParam: "a",
-	pollAction: "StayAlive",
-	pollInterval: moneta.Globals.consts.ONEMINUTE,
-	// how long should the messageBox wait (in seconds)?
-	messageBoxCountdown: 30, 
-});
-
-
-
 Ext.define("moneta.Globals.fn", {
 	singleton: true,
-	
-	resetTimeout: function (self) {
-		console.log('resetTimeout');
-		if (!self._inactivityTask) {
-			self._inactivityTask = new Ext.util.DelayedTask(self._beginCountdown, self);
-		}
-		self._inactivityTask.delay(moneta.SessionMrg.Config.inactivityTimeout);
-	},
 	
 	maskAll: function (msg) {
 		Ext.getCmp(moneta.Globals.id.UI_APPLICATION).mask(msg);

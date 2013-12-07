@@ -26,9 +26,31 @@
 		<script type="text/javascript" src="js/moneta/session/SessionMgr.js"></script>
 		
 		<!-- Actions -->
-		<script type="text/javascript" src="js/moneta/actions/all.js"></script>		
-		
+		<!--
+		<script type="text/javascript" src="js/moneta/actions/all.js"></script>	
+		-->
+		<script type="text/javascript" src="js/moneta/actions/about.js"></script>	
+		<script type="text/javascript" src="js/moneta/actions/chooseProject.js"></script>	
+		<script type="text/javascript" src="js/moneta/actions/backupProject.js"></script>	
+		<script type="text/javascript" src="js/moneta/actions/restoreProject.js"></script>	
+		<script type="text/javascript" src="js/moneta/actions/showProjects.js"></script>	
+		<script type="text/javascript" src="js/moneta/actions/showUsers.js"></script>	
+		<script type="text/javascript" src="js/moneta/actions/showCharts.js"></script>	
+		<script type="text/javascript" src="js/moneta/actions/showTags.js"></script>	
+		<script type="text/javascript" src="js/moneta/actions/showStocks.js"></script>	
+		<script type="text/javascript" src="js/moneta/actions/showNetGrossStock.js"></script>	
+		<script type="text/javascript" src="js/moneta/actions/showReconciliations.js"></script>	
+		<script type="text/javascript" src="js/moneta/actions/createForm.js"></script>	
+		<script type="text/javascript" src="js/moneta/actions/createEditForm.js"></script>	
+		<script type="text/javascript" src="js/moneta/actions/accounts/create.js"></script>	
+		<script type="text/javascript" src="js/moneta/actions/accounts/show.js"></script>	
+		<script type="text/javascript" src="js/moneta/actions/accounts/delete.js"></script>	
+		<script type="text/javascript" src="js/moneta/actions/accounts/edit.js"></script>			
+		<script type="text/javascript" src="js/moneta/actions/entries/create.js"></script>	
+		<script type="text/javascript" src="js/moneta/actions/entries/show.js"></script>	
 		<script type="text/javascript" src="js/moneta/actions/onLogin.js"></script>	
+		
+		
 		
 		<!-- Smart widgets -->
 		<script type="text/javascript" src="js/moneta/smart/all.js"></script>		
@@ -45,11 +67,17 @@
 		
 		
 		<!-- Widgets -->
+		<!--
 		<script type="text/javascript" src="js/moneta/widgets/all.js"></script>
-		
+		-->
+		<script type="text/javascript" src="js/moneta/widgets/ToggableWindow.js"></script>
+		<script type="text/javascript" src="js/moneta/widgets/HighChart.js"></script>
+		<script type="text/javascript" src="js/moneta/widgets/HighStock.js"></script>
+		<script type="text/javascript" src="js/moneta/widgets/EmbeddedWindow.js"></script>
+		<script type="text/javascript" src="js/moneta/widgets/UploadWindow.js"></script>		
 		
 		<!-- Menus -->
-		<?php include 'js/moneta/components/menu.js.php'; ?>
+		<?php include 'js/moneta/components/menu.js.php' ?>
 		
 		<script type="text/javascript" src="js/moneta/app.js"></script>
 <?php

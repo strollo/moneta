@@ -29,4 +29,4 @@ Ext.Loader.loadScript( currPath + '/entries/create.js' );
 Ext.Loader.loadScript( currPath + '/entries/show.js' );
 
 // OnLogin handler
-// Ext.Loader.loadScript( currPath + '/onLogin.js' );
+Ext.Loader.loadScript( currPath + '/onLogin.js' );
