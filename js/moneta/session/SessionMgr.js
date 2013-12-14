@@ -6,12 +6,13 @@ Ext.define("moneta.conf.InactivityMonitor", {
 	ONESECOND: 1000,
 	ONEMINUTE: 60000,
 	
-	resetTimeout: function (self) {
-		console.log('resetTimeout');
-		if (!self._inactivityTask) {
-			self._inactivityTask = new Ext.util.DelayedTask(self._beginCountdown, self);
+	resetTimeout: function () {
+		monitor = moneta.Globals.deamons.InactivityMonitor;
+		console.log('resetTimeout');			
+		if (!monitor._inactivityTask) {
+			monitor._inactivityTask = new Ext.util.DelayedTask(monitor._beginCountdown, monitor);
 		}
-		self._inactivityTask.delay(self.config.inactivityTimeout);
+		monitor._inactivityTask.delay(monitor.config.inactivityTimeout);
 	},
 });
 
@@ -55,7 +56,7 @@ Ext.define("moneta.daemons.InactivityMonitor", {
 						success: function(response){
 							var result = moneta.Globals.handlers.checkAjaxResponse(response);
 							if (result) {
-								moneta.conf.InactivityMonitor.resetTimeout(me);
+								moneta.conf.InactivityMonitor.resetTimeout();
 							}
 						},
 					});
@@ -67,16 +68,19 @@ Ext.define("moneta.daemons.InactivityMonitor", {
         }
 		
 		console.log('Timeout handlers');
+		
+		moneta.Globals.deamons.InactivityMonitor = me;
+		
 		var body = Ext.getBody();
-		body.on("click", moneta.conf.InactivityMonitor.resetTimeout, me);
-        body.on("keypress", moneta.conf.InactivityMonitor.resetTimeout, me);
+		body.on("click", moneta.conf.InactivityMonitor.resetTimeout);
+        body.on("keypress", moneta.conf.InactivityMonitor.resetTimeout);
     },
     
     destroy: function() {
 		var me = this;
         var body = Ext.getBody();
-        body.un("click", moneta.conf.InactivityMonitor.resetTimeout, me);
-        body.un("keypress", moneta.conf.InactivityMonitor.resetTimeout, me);
+        body.un("click", moneta.conf.InactivityMonitor.resetTimeout);
+        body.un("keypress", moneta.conf.InactivityMonitor.resetTimeout);
 		Ext.TaskManager.stop(me._pollTask);
 		me._inactivityTask.cancel();
 		Ext.TaskManager.stop(me._countdownTask);
@@ -93,9 +97,10 @@ Ext.define("moneta.daemons.InactivityMonitor", {
         var config = Ext.apply({
             buttons: {ok: "Keep Working"},
             closable: true,
+			// When stopped the countdown
             fn: function (btn) {
                 Ext.TaskManager.stop(me._countdownTask);
-				moneta.conf.InactivityMonitor.resetTimeout(me);
+				moneta.conf.InactivityMonitor.resetTimeout();
             },
             msg: "Your session has been idle for too long.  Click the button to keep working.",
             progress: true,
@@ -114,7 +119,6 @@ Ext.define("moneta.daemons.InactivityMonitor", {
         win.seconds = 0;
         me._countdownTask = Ext.TaskManager.start({
             run: function () {
-				console.log('countdownTask');
                 win.seconds += 1;
                 if (win.seconds > me.config.messageBoxCountdown) {
                     Ext.TaskManager.stop(me._countdownTask);
@@ -124,7 +128,7 @@ Ext.define("moneta.daemons.InactivityMonitor", {
                 }
             },
             scope: me,
-            interval: moneta.Globals.consts.ONESECOND,
+            interval: moneta.conf.InactivityMonitor.ONESECOND,
         });
     }
 });

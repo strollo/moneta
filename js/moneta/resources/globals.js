@@ -26,6 +26,8 @@ Ext.define("moneta.Globals.deamons", {
 		 },
 		 interval: 1000
 	 }),
+	 
+	 InactivityMonitor: null,
 });
 
 /*
@@ -57,8 +59,7 @@ Ext.define("moneta.Globals.id", {
 	
 	UI_WIN_HELP: 'win::help',	
 	
-	UI_MNU_ALLOCATIONS: 'components::ui::allocations',	
-	TH_INACTIVITY_MON: 'moneta.daemons.InactivityMonitor',
+	UI_MNU_ALLOCATIONS: 'components::ui::allocations',
 });
 
 Ext.define("moneta.Globals.handlers", {
@@ -87,7 +88,7 @@ Ext.define("moneta.Globals.handlers", {
 		   return false;
 		}
 		return true;
-	}
+	},
 });
 
 Ext.define("moneta.Globals.fn", {
