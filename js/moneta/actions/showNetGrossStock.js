@@ -4,7 +4,7 @@ function showNetGrossStock(id, title) {
 		id = 'stock-netgross-' + moneta.Globals.counters.ID_CHART++;
 	}
 	if (!title) {
-		title = 'Net Gross';
+		title = 'Monthly Profits';
 	}
 	if (!isProjectChoosen()) {
 		showAvailableProjects(showNetGrossStock);

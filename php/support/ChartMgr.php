@@ -92,7 +92,7 @@ class ChartMgr {
 		while($r = mysql_fetch_assoc($result)) {
 			$rows['data'][] = $r;
 		}
-		$retval['label'] = 'NetGross';
+		$retval['label'] = 'Profits';
 		$retval['data'] = $rows['data'];
 		return $retval;
 	}
