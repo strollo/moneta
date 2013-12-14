@@ -33,16 +33,23 @@ Ext.define("moneta.daemons.InactivityMonitor", {
 		messageBoxCountdown: 30, 
     },
 	
-    constructor: function(config) {   	
+	onTimeout: function() { 
+		window.location = this.config.logoutUrl; 
+	},
+	
+	constructor: function(config) {   	
 		console.log('Creating InactivityMonitor');
 		
 		// Initialize local events
-		this.addEvents('timeout');
 		Ext.merge(this.config, config);
 		this.mixins.observable.constructor.call(this, this.config);
 		//this.callParent([Ext.apply(config, this.config)]);		
+		
+		this.addEvents('timeout');
+		
 		var me = this.__proto__;
 		
+		// PING Thread
         if (me.config.inactivityTimeout >= moneta.conf.InactivityMonitor.ONEMINUTE) {
             me._pollTask = Ext.TaskManager.start({
                 run: function () {
@@ -122,7 +129,7 @@ Ext.define("moneta.daemons.InactivityMonitor", {
                 win.seconds += 1;
                 if (win.seconds > me.config.messageBoxCountdown) {
                     Ext.TaskManager.stop(me._countdownTask);
-                    me.fireEvent("timeout", me, win);
+					me.onTimeout();
                 } else {
                     win.updateProgress(win.seconds / me.config.messageBoxCountdown);
                 }

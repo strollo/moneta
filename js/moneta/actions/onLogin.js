@@ -12,6 +12,7 @@ function onLogin() {
 		listeners: {
 			timeout: function() { window.location = "php/logout.php"; }
 		},
+		logoutUrl: "php/logout.php",
 		pollUrl: "php/ping.php"
 	});
 }
