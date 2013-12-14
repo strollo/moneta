@@ -8,7 +8,7 @@ Ext.define("moneta.conf.InactivityMonitor", {
 	
 	resetTimeout: function () {
 		monitor = moneta.Globals.deamons.InactivityMonitor;
-		console.log('resetTimeout');			
+		moneta.Globals.fn.clog('[Session Manager] reset Timeout');			
 		if (!monitor._inactivityTask) {
 			monitor._inactivityTask = new Ext.util.DelayedTask(monitor._beginCountdown, monitor);
 		}
@@ -18,9 +18,6 @@ Ext.define("moneta.conf.InactivityMonitor", {
 
 
 Ext.define("moneta.daemons.InactivityMonitor", { 
-	mixins: {
-        observable: 'Ext.util.Observable'
-    },
 	
 	// Default configuration
 	config: {
@@ -38,15 +35,10 @@ Ext.define("moneta.daemons.InactivityMonitor", {
 	},
 	
 	constructor: function(config) {   	
-		console.log('Creating InactivityMonitor');
-		
+		moneta.Globals.fn.clog('[Session Manager] started');
 		// Initialize local events
 		Ext.merge(this.config, config);
-		this.mixins.observable.constructor.call(this, this.config);
-		//this.callParent([Ext.apply(config, this.config)]);		
-		
-		this.addEvents('timeout');
-		
+		this.callParent([Ext.apply(config, this.config)]);			
 		var me = this.__proto__;
 		
 		// PING Thread
@@ -55,9 +47,9 @@ Ext.define("moneta.daemons.InactivityMonitor", {
                 run: function () {
                     var params = {};
                     params[me.config.pollActionParam] = me.config.pollAction;
-					console.log('pollTask: requesting url: ' + me.config.pollUrl + ' params: ' + me.config.pollActionParam + ' -> ' + me.config.pollAction);
+					moneta.Globals.fn.clog('[Session Manager] requesting url: ' + me.config.pollUrl);
                     Ext.Ajax.request({
-						url: me.pollUrl,
+						url: me.config.pollUrl,
 						method: 'GET',
 						params: params,
 						success: function(response){
@@ -73,10 +65,9 @@ Ext.define("moneta.daemons.InactivityMonitor", {
                 scope: me
             });           
         }
-		
-		console.log('Timeout handlers');
-		
 		moneta.Globals.deamons.InactivityMonitor = me;
+		
+		moneta.conf.InactivityMonitor.resetTimeout();
 		
 		var body = Ext.getBody();
 		body.on("click", moneta.conf.InactivityMonitor.resetTimeout);
@@ -84,6 +75,7 @@ Ext.define("moneta.daemons.InactivityMonitor", {
     },
     
     destroy: function() {
+		moneta.Globals.fn.clog('[Session Manager] stopped');
 		var me = this;
         var body = Ext.getBody();
         body.un("click", moneta.conf.InactivityMonitor.resetTimeout);
@@ -102,7 +94,6 @@ Ext.define("moneta.daemons.InactivityMonitor", {
     _beginCountdown: function () {
 		var me = this;
         var config = Ext.apply({
-            buttons: {ok: "Keep Working"},
             closable: true,
 			// When stopped the countdown
             fn: function (btn) {
@@ -111,8 +102,10 @@ Ext.define("moneta.daemons.InactivityMonitor", {
             },
             msg: "Your session has been idle for too long.  Click the button to keep working.",
             progress: true,
+			resizable: true,
             scope: me,
-            title: "Inactivity Warning"
+            title: "Inactivity Warning",
+			buttons: Ext.Msg.CANCEL,
         }, me.config.messageBoxConfig);
         if (!me._countdownMessage) {
 			// only create the MessageBox once
