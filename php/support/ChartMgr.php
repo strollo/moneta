@@ -106,6 +106,13 @@ class ChartMgr {
 		return $retval['data'];
 	}
 	
+	static function getIncrementalProfits() {
+		self::$log->info('getNetGrossTrend');
+		$retval = array();
+		$retval['data'][] = ChartMgr::buildTotNetGross();
+		return $retval['data'];
+	}
+		
 	static function getChartData($activityType, $groupBy='tag', $limit=10) {
 		self::$log->info('getChartData');
 		$query = "SELECT `" . Utils::strTrim($groupBy) . "` as name, sum(amount) as value FROM activity_view_chart where type_id=" 

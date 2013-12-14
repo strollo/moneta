@@ -95,6 +95,7 @@ var mnuShowCharts = Ext.create('Ext.menu.Item', {
 			{ text: 'Pie Charts', handler: function(){ showCharts(); } },
 			{ text: 'Stock Charts', handler: function(){ showStocks(); } },
 			{ text: 'Monthly Profits', handler: function(){ showNetGrossStock(); } },
+			{ text: 'Profit growth', handler: function(){ showIncrementalProfits(); } },
 		]
 	})
 });

@@ -50,11 +50,13 @@ function buildHighStock(self, response) {
 		return null;
 	}
 	
+	var currVal = 0;
 	var total = 0;
 	var min = 0;
 	var max = 0;
 	for (var i = 0; i < res.data.length; i++) {
 		var gdata = new Array();
+		currVal = 0;
 		
 		if (!res.data[i].data) {
 			return null;
@@ -63,7 +65,14 @@ function buildHighStock(self, response) {
 		for (var j = 0; j < res.data[i].data.length; j++) {
 			var elem = new Array();
 			elem[0] = parseInt(res.data[i].data[j].name);
-			elem[1] = parseFloat(res.data[i].data[j].value);
+			
+			if (self.config.incrementalMode) {
+				currVal += parseFloat(res.data[i].data[j].value);
+			} else {
+				currVal = parseFloat(res.data[i].data[j].value);
+			}
+			
+			elem[1] = currVal;
 			gdata.push(elem);
 			
 			// Evaluates the average amount of first series
@@ -243,6 +252,9 @@ Ext.define('moneta.widgets.HighStock', {
 	config: {
 		// Allows to remove the toolbar with graph options
 		hideToolBar: false,
+		// The points are incremented with the previous value
+		// By default false.
+		incrementalMode: false,
 	},
 
 	loadData: function() {

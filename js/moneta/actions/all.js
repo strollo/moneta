@@ -14,6 +14,7 @@ Ext.Loader.loadScript( currPath + '/showCharts.js' );
 Ext.Loader.loadScript( currPath + '/showTags.js' );
 Ext.Loader.loadScript( currPath + '/showStocks.js' );
 Ext.Loader.loadScript( currPath + '/showNetGrossStock.js' );
+Ext.Loader.loadScript( currPath + '/showIncrementalProfits.js' );
 Ext.Loader.loadScript( currPath + '/showReconciliations.js' );
 Ext.Loader.loadScript( currPath + '/createForm.js' );
 Ext.Loader.loadScript( currPath + '/createEditForm.js' );
