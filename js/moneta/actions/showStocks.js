@@ -16,6 +16,6 @@ function showStocks(id, title, activityType) {
 	}
 
 	var _url = moneta.Globals.data.DATA_CHART + '?graphT=stock&activity_type=' + activityType;
-	c = Ext.create('moneta.widgets.HighStock', {url: _url, id: id, title: title, hideToolBar: false})
+	c = Ext.create('moneta.widgets.HighStock', {url: _url, id: id, title: title, hideToolBar: false, incrementalMode: false,})
 	c.loadData();
 }

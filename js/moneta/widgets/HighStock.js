@@ -66,7 +66,7 @@ function buildHighStock(self, response) {
 			var elem = new Array();
 			elem[0] = parseInt(res.data[i].data[j].name);
 			
-			if (self.config.incrementalMode) {
+			if (self.config.incrementalMode === true) {
 				currVal += parseFloat(res.data[i].data[j].value);
 			} else {
 				currVal = parseFloat(res.data[i].data[j].value);

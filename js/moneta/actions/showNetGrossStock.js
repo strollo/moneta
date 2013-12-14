@@ -12,6 +12,6 @@ function showNetGrossStock(id, title) {
 	}
 
 	var _url = moneta.Globals.data.DATA_CHART + '?graphT=stocknetgross';
-	c = Ext.create('moneta.widgets.HighStock', {url: _url, id: id, title: title, hideToolBar: true})
+	c = Ext.create('moneta.widgets.HighStock', {url: _url, id: id, title: title, hideToolBar: true, incrementalMode: false,})
 	c.loadData();
 }
