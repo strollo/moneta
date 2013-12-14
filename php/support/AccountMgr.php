@@ -111,7 +111,7 @@ class AccountMgr {
 		$r = array();
 		$r['type'] = 'profits';
 		$r['total'] = $profitValue;
-		$r['text'] = "Net Gross: (" . $r['total'] . ")";		
+		$r['text'] = "Profits: (" . $r['total'] . ")";		
 		$r['iconCls'] = 'ico-accounts-opening';
 		$r['leaf'] = true;
 		return $r;
