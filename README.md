@@ -1,12 +1,13 @@
 Moneta - Ext-JS based standalone Web application for personal accounting
 ========================================================================
 
-Moneta is a web based double entry accouting software written in PHP - CodeIgniter and uses MySQL as database backend.
+Moneta is a web based graphical accouting software written in ExtJS and uses MySQL as database backend.
 
 Moneta is licensed under GNU GENERAL PUBLIC LICENSE, Version 3.0
 http://gplv3.fsf.org/
 
 Main Features:
+- Open Source
 - Window based GUI
 - Easy installation: no setup required
 - Works on local apache server so data is locally maintained
