@@ -16,3 +16,6 @@ Main Features:
 - Tag on activities
 - Flexible grouping on activities reports on date/tag/source....
 - Support for multiple users, projects and permissions
+
+A brief guide can be found at:
+http://monetademo.altervista.org/index.html
