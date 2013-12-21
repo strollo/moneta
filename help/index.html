@@ -9,7 +9,12 @@
 		<link rel="stylesheet" type="text/css" href="css/custom.css" />
 		<link rel="stylesheet" type="text/css" href="css/scrollbar.css" />
 		
-		<script src="js/modernizr.custom.79639.js"></script>				
+		<script src="js/modernizr.custom.79639.js"></script>	
+		<script src="js/jquery-2.0.3.js"></script>		
+		<script src="js/jquerypp.custom.js"></script>
+		<script src="js/jquery.bookblock.js"></script>
+				
+					
 	</head>
 	<body>
 		<div id="container" class="container">	
@@ -19,6 +24,7 @@
 				<ul id="menu-toc" class="menu-toc">
 					<li class="menu-toc-current"><a href="#introduction">Introduction</a></li>
 					<li><a href="#main">Main concepts</a></li>
+					<li><a href="#installation">Installation</a></li>			
 					<li><a href="#license">License</a></li>
 					<li><a href="#acks">Acknowledgments</a></li>					
 				</ul>				
@@ -33,7 +39,9 @@
 						<div class="content">
 							<div class="scroller">
 								<h2>Introduction</h2>
-								<p><strong>Main Features:</strong>
+								<p class="paragraph-title">Main Features</p>
+								<!-- paragraph content -->
+								<div>
 									<ol>
 										<li>Open source</li>
 										<li>Window based GUI</li>
@@ -45,14 +53,20 @@
 										<li>Flexible grouping on activities reports on date/tag/source....</li>
 										<li>Support for multiple users, projects and permissions</li>
 									</ol>
-								</p>
+								</div>
 								
-								<p><strong>Requirements:</strong>
+								<br/><br/>
+								<center>
+									<img src="screens/screen1.png" alt="Accounts view" width="80%">
+								</center>
+								
+								<p class="paragraph-title">Requirements</p>
+								<div>
 									<ul>
 										<li><a href="http://httpd.apache.org/">Apache Web Server</a></li>
 										<li><a href="http://dev.mysql.com/">MySql DBMS</a></li>
 									</ul>
-								</p>
+								</div>
 							</div>
 						</div>
 					</div>					
@@ -63,16 +77,17 @@
 						<div class="content">
 							<div class="scroller">		
 								<h2>Main concepts</h2>
-								<p class="paragraph">Accounts</p>
+								<!-- paragraph title -->
+								<p class="paragraph-title">Accounts</p>
+								<!-- paragraph content -->
+								<div>
 									<p>
-									<figure class="figure" style="float:left; margin-left:25px;">
-										<img src="screens/screen3.png" alt="Accounts view" style="float:left; margin-left:40px; margin-right: 30px;">
-										<figcaption>Accounts view</figcaption>
-									</figure>
-									<!-- Left img -->
+										<figure class="figure" style="float:left; margin-left:25px;">
+											<img src="screens/screen3.png" alt="Accounts view" style="float:left; margin-left:40px; margin-right: 30px;">
+											<figcaption>Accounts view</figcaption>
+										</figure>
 									</p>
-									<p>
-									Accounts are grouped into&nbsp;<strong>categories</strong>:
+										<p>Accounts are grouped into&nbsp;<strong>categories</strong>:
 										<ul>
 											<li>
 												<strong>Bank and Cash Accounts:</strong>
@@ -99,19 +114,86 @@
 											<li><strong>Outgoing Accounts:</strong> represents the flows of exits. It is enought to have a single outgoing account (e.g. Expenses). But if you want to distinguish your outgoings you can create different accounts in this category so you will have distinct reports according to each of them.</li>
 											<li><strong>Persons:</strong> debts and loans to persons are modeled by storing transactions between bank or cash accounts to / from persons.</li>
 										</ul>
-								</p>
+									</p>
+								</div>
+								
+								
+								<p class="break"><!--Appendix 2 (continued)--></p>
+								<p class="paragraph-title">Actions</p>
+								<div>
+									<ul>
+										<li><strong>New Account</strong> 
+										allows to create new accounts in the current project.
+										It simply required the account name (e.g. mybank), the type (e.g. Bank account) 
+										and the initial balance if any (the current balance amount).
+										</li>
+										<li><strong>New Operation</strong> 
+										opens a form to track a new activity (expense, income, transaction...).
+										Activities are always represented in the form of money flows from an account to another.
+										For example the money withdraw is represented in Figure 2.
+										<figure class="figure" style="float:left; margin-left:25px;">
+											<img src="screens/screen4.png" alt="Money withdraw" style="float:left; margin-left:40px; margin-right: 30px;">
+											<figcaption>Money withdraw sample</figcaption>
+										</figure>
+										<br/>
+										The system will automatically propose the list of accounts compatible with the activity type chosen
+										(for example the money transfer is not allowed on credit cards so they will be not shown in the 
+										target/source fields).
+										</li>
+										<li><strong>Reconciliations</strong> are actions for pending transactions like credit cards.
+											The operation on credit cards is made persistent only once it is charged to the ahold bank or
+											credit card statement. Only after this action the money is really considered in the expenses.											
+										</li>
+										<li><strong>Manage Tags</strong> allows to add new or rename existing tags.
+										<br/>Notice that new tags are automatically created if inserted in the <em>New Operation</em> form
+										and are not present in the database.
+										</li>
+									</ul>
+								</div>
 								
 								<br/><br/>
-								<p class="paragraph">Operations</p>
-								<p></p>
+								<p class="paragraph-title">Projects</p>
+								<div>
+									<p>
+									It is possible to manage different ledgers that will group separated accounts and activities.
+									In addition to each project it is possible to assign a set of users enabled to manage it.
+									</p>
+								</div>
+								
 								
 								<br/><br/>
-								<p class="paragraph">Projects</p>
-								<p></p>
+								<p class="paragraph-title">Other features</p>
+								<div>
+									<ul>
+										<li><strong>Charts</strong>
+											<br/>Reports are represented with graphical charts that can be exported and locally saved in 
+											several formats (png, pdf, gif...).
+										</li>
+										<li><strong>Backup/Restore</strong>
+											<br/>The whole project data can be locally backed up and to keep you data safe.
+										</li>
+										<li><strong>Grouping</strong>
+											<br/>By clicking on a column (e.g. Tag) of the activities view (Figure 3) it is possible to group 
+											the activites by the chosen field.
+										</li>
+										<li><strong>Search on description</strong>
+											<br/>On the activities view (Figure 3) it is possible
+											to input a text to search so that only the activities containing that string will be shown.
+										</li>
+										<li><strong>Themes</strong>
+											<br/>The application supports also theming with accessibility features.
+										</li>
+									</ul>
+									<div>
+										<center>
+											<figure class="figure" style="float:left; margin-left:25px;">
+												<img src="screens/screen2.png" width="60%" alt="Activities view" >
+												<figcaption>Activities view</figcaption>
+											</figure>
+										</center>
+									</div>
+								</div>
 								
-								<br/><br/>
-								<p class="paragraph">Filters</p>
-								<p></p>
 								
 								
 								
@@ -119,32 +201,92 @@
 						</div>
 					</div>					
 					<!-- ENDOF Main page-->
+					
+					
+					<!-- PAGE1 -->
+					<div class="bb-item" id="installation">
+						<div class="content">
+							<div class="scroller">
+								<h2>Requirements</h2>
+								<p class="paragraph-title">The list of requirements</p>
+								<div>
+									<p>
+									You simply need to have installed the following components:
+									</p>
+									<ul>
+										<li><a href="http://httpd.apache.org/">Apache Web Server</a></li>
+										<li><a href="http://dev.mysql.com/">MySql DBMS</a></li>
+									</ul>									
+									<p>
+									In the following you will find the steps to install them on linux machines.
+									</p>
+								</div>
+							
+								<h2>Installation</h2>
+								<p class="paragraph-title">Installation instruction (Ubuntu/Debian)</p>
+								<!-- paragraph content -->
+								<div>
+									<p>- Install Apache HTTP Server
+									<pre>sudo apt-get install apache2 apache2.2-bin apache2-utils apache2.2-common libapache2-mod-php5</pre>
+									</p>
+									
+									<p>- Install MySQL DB
+									<pre>sudo apt-get install mysql-server-5.5 php5-mysql</pre>
+									</p>
+								
+									<p>- Install Moneta</p>
+									<pre>sudo su</pre>
+									<pre>cd /var/www</pre>
+									<pre>git clone https://github.com/strollo/moneta.git</pre>		
+
+									<p>- Now you will have a folder /var/www/moneta created.</p>
+																		
+									<p>- Configure the database access</p>
+									<pre>cp /var/www/moneta/moneta.ini.sample /var/www/moneta/moneta.ini</pre>
+									<pre>gedit /var/www/moneta/moneta.ini</pre>
+									
+									<br/>
+									<p>
+									- You'll find a text like this:
+									</p>
+									<pre>[database]</pre>
+									<pre>db_type = "mysql"</pre>
+									<pre>db_hostname = "127.0.0.1"</pre>
+									<pre>db_port = "3306"</pre>
+									<pre>db_name = "moneta"</pre>
+									<pre>db_username = "user"</pre>
+									<pre>db_password = "password"</pre>
+									
+									<p>- Configure the parameters according to your MySQL configuration (basically <i>db_username</i> and <i>db_password</i> should be enough).</p>
+								
+									<p>- Set the proper permissions to run</p>
+									<pre>chown www-data.www-data -R /var/www/moneta</pre>
+					
+									<p>- Restart apache</p>
+									<pre>/etc/init.d/apache2 restart</pre>
+									
+									<p>- <b>Done!</b> Connect to <a href="http://127.0.0.1/moneta/index.php">http://127.0.0.1/moneta/index.php</a></p>
+									
+									<p>- Login as <i>admin/admin</i></p>
+									
+									<p>- Remember to manage users (change the admin password)... And enjoy</p>
+									
+								</div>
+							</div>
+						</div>
+					</div>		
+
 								
 					<!-- Licences Page -->
 					<div class="bb-item" id="license">
 						<div class="content">
 							<div class="scroller">		
-							
-								<h2>License</h2>
-								<br/><br/><br/>
-							
-								<h3>Moneta License</h3>
-								
+								<h2>Author information</h2>
 								<p>
 									<strong>This project is copyright of Daniele Strollo</strong> (<em>daniele.strollo AT gmail.com</em>)
-								
-									<br/>
-									License: <a href="http://gplv3.fsf.org/">GPL3</a>
-									This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
-									<br/>
-									This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-									<br/>
-									See the GNU General Public License for more details. 
-									You should have received a copy of the GNU General Public License along with this program. 
-									If not, see http://www.gnu.org/licenses/. 
-									<br/><br/>
-									
-									<b>Donations are always welcome ;)</b>
+								</p>
+								<p>
+								<b>This software is left with Open Source License. Donations are always welcome ;)</b>
 									<center>
 									<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
 									<input type="hidden" name="cmd" value="_s-xclick">
@@ -154,16 +296,34 @@
 									</form>
 									</center>
 								</p>
+							
+							
+								<h2>License Information</h2>
+							
+								<h3>Moneta License</h3>
+								
+								<p>
+									<strong>Open Source License <a href="http://gplv3.fsf.org/">GPL3</a></strong>
+									<br/>
+									This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+									<br/>
+									This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+									<br/>
+									See the GNU General Public License for more details. 
+									You should have received a copy of the GNU General Public License along with this program. 
+									If not, see http://www.gnu.org/licenses/. 
+									<br/><br/>
+								</p>
 								
 								<br/><br/><br/>
 								<h3>Related software Licenses</h3>	
 
-								<p class="paragraph">Sencha Ext-JS</p>
+								<p class="paragraph-title">Sencha Ext-JS</p>
 								<p>
 									<img src="../deps/icons/sencha.png" height="32px">
 									<br/>
-									<strong>Open Source License</strong>
-									License: GPL3
+									<strong>Open Source License <a href="http://gplv3.fsf.org/">GPL3</a></strong>
+									<br/>
 									Sencha is an avid supporter of open source software. Our open source license is the appropriate option if you are creating an open source application under a license compatible with the GNU GPL license v3.
 									Although the GPLv3 has many terms, the most important is that you must provide the source code of your application to your users so they can be free to modify your application for their own needs.
 									<br/>
@@ -174,12 +334,12 @@
 								
 								
 								<br/><br/>
-								<p class="paragraph">Highcharts JS</p>
+								<p class="paragraph-title">Highcharts JS</p>
 								<p>
 									<img src="../deps/icons/highcharts.png" height="32px">
 									<br/>
-									<strong>Free - Non-commercial</strong>
-									License: Creative Commons
+									<strong>Free - Non-commercial License <a href="http://creativecommons.org/licenses/by-nc/3.0/">Creative Commons</a></strong>
+									<br/>
 									Attribution - You must attribute the work in the manner specified by the author or licensor (but not in any way that suggests that they endorse you or your use of the work).
 									Disclaimer -Do you want to use Highcharts for a personal or non-profit project?
 									Then you can use Highchcarts for free under the Creative Commons Attribution-NonCommercial 3.0 License.
@@ -190,12 +350,14 @@
 								
 								
 								<br/><br/>
-								<p class="paragraph">Google Web Toolkit (GWT)</p>
+								<p class="paragraph-title">Google Web Toolkit (GWT)</p>
 								<p>
 									<img src="../deps/icons/gwt.png" height="32px">
 									<br/>
-									<strong>Apache License, Version 2.0</strong>
+									<strong><a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache License, Version 2.0</a></strong>
+									<br/>
 									Terms of Service
+									<br/>
 									Google is a member of the GWT Open Source Project and operates this GWT website as a contribution to GWT.
 									The Google Terms of Service apply to Google's operation of this website.
 									The GWT software and sample code developed by Google is licensed under the Apache License, v. 2.0.
@@ -253,14 +415,11 @@
 				
 
 		</div><!-- /container -->
-		<script src="js/jquery-2.0.3.js"></script>		
-		<script src="js/jquerypp.custom.js"></script>
-		<script src="js/jquery.bookblock.js"></script>
-		<script src="js/page.js"></script>
 			
+		<script src="js/page.js"></script>
 		<script>
 			$(function() {
-				Page.init();		
+				Page.init();
 			});
 		</script>
 	</body>

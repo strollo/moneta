@@ -1,3 +1,16 @@
+body{
+  scrollbar-base-color: #C0C0C0;
+  /* the central part */
+  scrollbar-base-color: rgba(18, 81, 218, 0.88);
+  scrollbar-3dlight-color: rgba(18, 81, 218, 0.88);
+  
+  scrollbar-highlight-color: #C0C0C0;
+  scrollbar-track-color: #C0C0C0;
+  scrollbar-arrow-color: black;
+  scrollbar-shadow-color: #C0C0C0;
+  scrollbar-dark-shadow-color: #C0C0C0;
+}
+
 
 
 /****************************************************
