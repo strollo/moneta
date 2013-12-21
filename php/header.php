@@ -6,7 +6,6 @@
 	
 	<link type="text/css" rel="stylesheet" href="extjs/resources/css/ext-all.css">
 	<link type="text/css" rel="stylesheet" href="css/moneta.css">
-	<link type="text/css" rel="stylesheet" href="css/help.css">
 	
 	<!-- ExtJS -->
 	<script type="text/javascript" src="extjs/ext-all-debug.js"></script>	
@@ -58,9 +57,7 @@
 		<!-- Models -->
 		<script type="text/javascript" src="js/moneta/models/all.js"></script>		
 		
-		<script type="text/javascript" src="js/moneta/help/all.js"></script>		
-		
-		<script type="text/javascript" src="js/moneta/plugins/all.js"></script>
+				<script type="text/javascript" src="js/moneta/plugins/all.js"></script>
 		
 		<script type="text/javascript" src="js/moneta/components/accountTree.js"></script>
 		<script type="text/javascript" src="js/moneta/components/statusBar.js"></script>

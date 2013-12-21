@@ -1,0 +1,267 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+	<head>
+		<title>Moneta Help</title>
+		<link rel="shortcut icon" href="../favicon.ico"> 
+		<link rel="stylesheet" type="text/css" href="css/bookblock.css" />
+		<link rel="stylesheet" type="text/css" href="css/custom.css" />
+		<link rel="stylesheet" type="text/css" href="css/scrollbar.css" />
+		
+		<script src="js/modernizr.custom.79639.js"></script>				
+	</head>
+	<body>
+		<div id="container" class="container">	
+		
+			<div class="menu-panel">
+				<h3>Table of Contents</h3>
+				<ul id="menu-toc" class="menu-toc">
+					<li class="menu-toc-current"><a href="#introduction">Introduction</a></li>
+					<li><a href="#main">Main concepts</a></li>
+					<li><a href="#license">License</a></li>
+					<li><a href="#acks">Acknowledgments</a></li>					
+				</ul>				
+			</div>
+
+			<div class="bb-custom-wrapper">
+				<div id="bb-bookblock" class="bb-bookblock">
+				
+				
+					<!-- PAGE1 -->
+					<div class="bb-item" id="introduction">
+						<div class="content">
+							<div class="scroller">
+								<h2>Introduction</h2>
+								<p><strong>Main Features:</strong>
+									<ol>
+										<li>Open source</li>
+										<li>Window based GUI</li>
+										<li>Easy installation: no setup required</li>
+										<li>Works on local apache server so data is locally maintained</li>
+										<li>Tracks multiple activities: incomes/outgoings/transfers/credit card payments/loans/debts</li>
+										<li>Chart based reports including timeseries and multiple format exports (png/pdf,jpeg...)</li>
+										<li>Tag on activities</li>
+										<li>Flexible grouping on activities reports on date/tag/source....</li>
+										<li>Support for multiple users, projects and permissions</li>
+									</ol>
+								</p>
+								
+								<p><strong>Requirements:</strong>
+									<ul>
+										<li><a href="http://httpd.apache.org/">Apache Web Server</a></li>
+										<li><a href="http://dev.mysql.com/">MySql DBMS</a></li>
+									</ul>
+								</p>
+							</div>
+						</div>
+					</div>					
+
+
+					<!-- Main page -->	
+					<div class="bb-item" id="main">
+						<div class="content">
+							<div class="scroller">		
+								<h2>Main concepts</h2>
+								<p class="paragraph">Accounts</p>
+									<p>
+									<figure class="figure" style="float:left; margin-left:25px;">
+										<img src="screens/screen3.png" alt="Accounts view" style="float:left; margin-left:40px; margin-right: 30px;">
+										<figcaption>Accounts view</figcaption>
+									</figure>
+									<!-- Left img -->
+									</p>
+									<p>
+									Accounts are grouped into&nbsp;<strong>categories</strong>:
+										<ul>
+											<li>
+												<strong>Bank and Cash Accounts:</strong>
+												Are the default accounts (Bank accounts, Wallet, Debt Cards other investments...) having no reconciliations.
+												<br/>
+												So they can be a <i>deposit accounts</i> or <i>savings accounts</i> while credit accounts are modeled in the 
+												<i>Credit Cards</i> type since they need a reconciliation to a <i>Bank Accounts</i>.
+												Typical operations among these accounts are: <i>withdrawals</i> and <i>bank transfers</i>.
+											</li>
+											<li>
+												<strong>Credit Cards:</strong> 
+												A credit card is a payment card issued to users as a system of payment. It allows the cardholder to pay for goods 
+												and services based on the holder&#39;s promise to pay for them. 
+												The issuer of the card creates a revolving account and grants a line of credit to the consumer (or the user) 
+												from which the user can borrow money for payment to a merchant or as a cash advance to the user.
+												<br/>
+												A credit card is different from a charge card: a charge card requires the balance to be paid in full each month.
+												In contrast, credit cards allow the consumers a continuing balance of debt, subject to interest being charged. 
+												A credit card also differs from a cash card, which can be used like currency by the owner of the card. 
+												A credit card differs from a charge card also in that a credit card typically involves a third-party entity that pays the seller and is reimbursed by the buyer, whereas a charge card simply defers payment by the buyer until a later date.
+											</li>
+												
+											<li><strong>Incoming Accounts: </strong>here you store your entries (salary, incoming gifts and so on).</li>
+											<li><strong>Outgoing Accounts:</strong> represents the flows of exits. It is enought to have a single outgoing account (e.g. Expenses). But if you want to distinguish your outgoings you can create different accounts in this category so you will have distinct reports according to each of them.</li>
+											<li><strong>Persons:</strong> debts and loans to persons are modeled by storing transactions between bank or cash accounts to / from persons.</li>
+										</ul>
+								</p>
+								
+								<br/><br/>
+								<p class="paragraph">Operations</p>
+								<p></p>
+								
+								<br/><br/>
+								<p class="paragraph">Projects</p>
+								<p></p>
+								
+								<br/><br/>
+								<p class="paragraph">Filters</p>
+								<p></p>
+								
+								
+								
+							</div>
+						</div>
+					</div>					
+					<!-- ENDOF Main page-->
+								
+					<!-- Licences Page -->
+					<div class="bb-item" id="license">
+						<div class="content">
+							<div class="scroller">		
+							
+								<h2>License</h2>
+								<br/><br/><br/>
+							
+								<h3>Moneta License</h3>
+								
+								<p>
+									<strong>This project is copyright of Daniele Strollo</strong> (<em>daniele.strollo AT gmail.com</em>)
+								
+									<br/>
+									License: <a href="http://gplv3.fsf.org/">GPL3</a>
+									This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+									<br/>
+									This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+									<br/>
+									See the GNU General Public License for more details. 
+									You should have received a copy of the GNU General Public License along with this program. 
+									If not, see http://www.gnu.org/licenses/. 
+									<br/><br/>
+									
+									<b>Donations are always welcome ;)</b>
+									<center>
+									<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+									<input type="hidden" name="cmd" value="_s-xclick">
+									<input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----">
+									<input type="image" src="https://www.paypalobjects.com/en_US/GB/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal – The safer, easier way to pay online.">
+									<img alt="" border="0" src="https://www.paypalobjects.com/it_IT/i/scr/pixel.gif" width="1" height="1">
+									</form>
+									</center>
+								</p>
+								
+								<br/><br/><br/>
+								<h3>Related software Licenses</h3>	
+
+								<p class="paragraph">Sencha Ext-JS</p>
+								<p>
+									<img src="../deps/icons/sencha.png" height="32px">
+									<br/>
+									<strong>Open Source License</strong>
+									License: GPL3
+									Sencha is an avid supporter of open source software. Our open source license is the appropriate option if you are creating an open source application under a license compatible with the GNU GPL license v3.
+									Although the GPLv3 has many terms, the most important is that you must provide the source code of your application to your users so they can be free to modify your application for their own needs.
+									<br/>
+									For further information please visit: <a href="http://www.sencha.com/products/extjs/license">http://www.sencha.com/products/extjs/license</a>
+								</p>
+								
+								<p><em>Source are available at <a href="https://github.com/strollo/moneta" target="_blank">Moneta Github repository</a></em></p>
+								
+								
+								<br/><br/>
+								<p class="paragraph">Highcharts JS</p>
+								<p>
+									<img src="../deps/icons/highcharts.png" height="32px">
+									<br/>
+									<strong>Free - Non-commercial</strong>
+									License: Creative Commons
+									Attribution - You must attribute the work in the manner specified by the author or licensor (but not in any way that suggests that they endorse you or your use of the work).
+									Disclaimer -Do you want to use Highcharts for a personal or non-profit project?
+									Then you can use Highchcarts for free under the Creative Commons Attribution-NonCommercial 3.0 License.
+									Find out more about Non-commercial - Highcharts JS Free licenses FAQ
+									<br/>
+									For further information please visit: <a href="http://shop.highsoft.com/highcharts.html">http://shop.highsoft.com/highcharts.html</a>
+								</p>
+								
+								
+								<br/><br/>
+								<p class="paragraph">Google Web Toolkit (GWT)</p>
+								<p>
+									<img src="../deps/icons/gwt.png" height="32px">
+									<br/>
+									<strong>Apache License, Version 2.0</strong>
+									Terms of Service
+									Google is a member of the GWT Open Source Project and operates this GWT website as a contribution to GWT.
+									The Google Terms of Service apply to Google's operation of this website.
+									The GWT software and sample code developed by Google is licensed under the Apache License, v. 2.0.
+									Other software included in this distribution is provided under other licenses, as listed in the 
+									Included Software and Licenses section at the bottom of this page. 
+									Source code for software included in this distribution is available from the GWT project or as otherwise indicated at the bottom of this page.
+									Please note that the executable version of the GWT distributed by Google will communicate with Google's servers to check for available updates. If updates are available, you will receive the option to install them.
+									<br/>
+									For further information please visit: <a href="http://www.gwtproject.org/terms.html">http://www.gwtproject.org/terms.html</a>
+								</p>
+
+
+
+							</div>
+						</div>
+					</div>
+					<!-- ENDOF Licences Page -->
+					
+					
+					<!-- Acknowledgments Page -->
+					<div class="bb-item" id="acks">
+						<div class="content">
+							<div class="scroller">		
+							
+								<h2>Acknowledgments</h2>
+								
+								<p><strong>Help page CSS</strong></p>
+								<p>
+								The style of help page has been created by Codrops
+								<br/>
+								Please read about license: <a href="http://tympanus.net/codrops/licensing/">http://tympanus.net/codrops/licensing</a>
+								</p>
+								
+								
+								<p><strong>Moneta Logo</strong></p>
+								<p>
+								Free - Non-commercial License: <a href="http://creativecommons.org/licenses/by-nc/3.0/">Creative Commons</a>
+								<br/>
+								Designer: <a href="http://www.visualpharm.com/">VisualPharm (Ivan Boyko)</a>
+								</p>
+							</div>
+						</div>
+					</div>
+					<!-- ENDOF Acknowledgments Page -->
+				</div>
+				
+				<nav>
+					<span id="bb-nav-prev">&larr;</span>
+					<span id="bb-nav-next">&rarr;</span>
+				</nav>
+
+				<span id="tblcontents" class="menu-button">Table of Contents</span>
+
+			</div>
+				
+
+		</div><!-- /container -->
+		<script src="js/jquery-2.0.3.js"></script>		
+		<script src="js/jquerypp.custom.js"></script>
+		<script src="js/jquery.bookblock.js"></script>
+		<script src="js/page.js"></script>
+			
+		<script>
+			$(function() {
+				Page.init();		
+			});
+		</script>
+	</body>
+</html>

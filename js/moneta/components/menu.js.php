@@ -234,7 +234,7 @@ Ext.define("moneta.widgets.MainMenu",
             xtype: 'button', // default for Toolbars
             text: 'Help',
 			icon: 'icons/help.png',
-			handler: function(){ showHelp(); }
+			href: 'help/index.html',			
         },		
 		'-',
 		{
