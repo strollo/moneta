@@ -99,6 +99,31 @@ Ext.define('moneta.widgets.SmartGrid',
 		return null;
 	},
 	
+	onTagFilterLoad: function( self, records, successful, operation) {
+		// Evaluate the total amount of filtered items
+		try {
+			data = this.data.items;
+			amount = 0;
+			for (var i = 0; i < data.length; i++) {
+				amount += parseFloat(data[i].raw.amount);
+			}
+			
+			var tip = Ext.create('Ext.tip.QuickTip', {
+				html: 'Total amount: ' + amount.toFixed(2),
+				autoHide: false,
+				autoDestroy: true,
+				renderTo: Ext.getBody(),
+			});
+			tip.show();			
+			// After a delay the tooltip will be hidden
+			var task = new Ext.util.DelayedTask(function(){
+				tip.destroy();
+			});
+			task.delay(5000);
+			
+		} catch (e) {}
+	},
+	
 	/* Handlers for filters by tag */
 	onTagFilterChange: function(self) {
 		this.store.clearFilter();
@@ -111,43 +136,21 @@ Ext.define('moneta.widgets.SmartGrid',
 		  caseSensitive: false
 		});
 		
-		this.store.on('load', function( self, records, successful, operation) {
-			// Evaluate the total amount of filtered items
-			try {
-				data = this.data.items;
-				amount = 0;
-				for (var i = 0; i < data.length; i++) {
-					amount += parseFloat(data[i].raw.amount);
-				}
-				
-				var tip = Ext.create('Ext.tip.QuickTip', {
-					html: 'Total amount: ' + amount,
-					autoHide: false,
-				});
-				tip.show();			
-				// After a delay the tooltip will be hidden
-				var task = new Ext.util.DelayedTask(function(){
-					tip.destroy();
-				});
-				task.delay(5000);
-				
-			} catch (e) {}
-		});
-		
+		this.store.on('datachanged', this.onTagFilterLoad);		
 		this.store.load();
 	},
 	onTagFilterReset: function(self) {
-		this.store.clearFilter();
-		this.store.load();
-	
+		this.store.un('datachanged', this.onTagFilterLoad);
 		tagFilter = this.getToolBarItemByName(this, 'tagFilter');
 		if (tagFilter) {
 			tagFilter.setValue(null);
 		}
+		this.store.clearFilter();
+		//this.store.load();
 	},	
 	
 	onTextFieldReset: function(self) {
-		this.store.clearFilter();
+		this.store.clearFilter();		
 		this.store.load();
 		
 		searchBox = this.getToolBarItemByName(this, 'searchField');
