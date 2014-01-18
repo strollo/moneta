@@ -109,8 +109,10 @@ Ext.define('moneta.widgets.SmartGrid',
 			}
 			
 			var tip = Ext.create('Ext.tip.QuickTip', {
+				title: data[0].raw.tag_v,
 				html: 'Total amount: ' + amount.toFixed(2),
 				autoHide: false,
+				closable: true,
 				autoDestroy: true,
 				renderTo: Ext.getBody(),
 			});
@@ -146,7 +148,6 @@ Ext.define('moneta.widgets.SmartGrid',
 			tagFilter.setValue(null);
 		}
 		this.store.clearFilter();
-		//this.store.load();
 	},	
 	
 	onTextFieldReset: function(self) {
