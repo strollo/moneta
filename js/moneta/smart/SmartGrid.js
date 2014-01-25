@@ -20,6 +20,7 @@ Ext.require([
 		this.checkPaging();
 		this.checkEditing();
 		this.checkCRUD();
+		this.checkTagFilter();
 		this.checkSearch();
 		this.callParent(arguments);
 		this.on('beforedestroy', moneta.Globals.handlers.onDestroy);
@@ -68,6 +69,8 @@ Ext.define('moneta.widgets.SmartGrid',
 	enableCRUD: true,
 	// Enables the search plugin
 	enableSearch: false,
+	// Enables filter by tag
+	enableFilterByTag: false,
 	// Enables editing on columns - the editable columns must be declared in the model
 	// with a form (editor: 'textfield')
 	// @see http://docs.sencha.com/extjs/4.1.1/#!/api/Ext.Editor for more details
@@ -86,18 +89,78 @@ Ext.define('moneta.widgets.SmartGrid',
 		return null;
 	},
 	
-	onTextFieldReset: function(self) {
-		console.log('TEST onTextFieldChange');		
+	getToolBarItemByName: function(self, name) {
+		t = self.dockedItems.items[2];
+		for (var i = 0 ; i < t.items.items.length; i++) {
+			if (t.items.items[i].name === name) {
+				return t.items.items[i];
+			}
+		}
+		return null;
+	},
+	
+	onTagFilterLoad: function( self, records, successful, operation) {
+		// Evaluate the total amount of filtered items
+		try {
+			data = this.data.items;
+			amount = 0;
+			for (var i = 0; i < data.length; i++) {
+				amount += parseFloat(data[i].raw.amount);
+			}
+			
+			var tip = Ext.create('Ext.tip.QuickTip', {
+				title: data[0].raw.tag_v,
+				html: 'Total amount: ' + amount.toFixed(2),
+				autoHide: false,
+				closable: true,
+				autoDestroy: true,
+				renderTo: Ext.getBody(),
+			});
+			tip.show();			
+			// After a delay the tooltip will be hidden
+			var task = new Ext.util.DelayedTask(function(){
+				tip.destroy();
+			});
+			task.delay(5000);
+			
+		} catch (e) {}
+	},
+	
+	/* Handlers for filters by tag */
+	onTagFilterChange: function(self) {
 		this.store.clearFilter();
+				
+		this.store.filter({
+		  property: 'tag_v',
+		  value: self.value,
+		  exactMatch: false,
+		  anyMatch: true,
+		  caseSensitive: false
+		});
+		
+		this.store.on('datachanged', this.onTagFilterLoad);		
+		this.store.load();
+	},
+	onTagFilterReset: function(self) {
+		this.store.un('datachanged', this.onTagFilterLoad);
+		tagFilter = this.getToolBarItemByName(this, 'tagFilter');
+		if (tagFilter) {
+			tagFilter.setValue(null);
+		}
+		this.store.clearFilter();
+	},	
+	
+	onTextFieldReset: function(self) {
+		this.store.clearFilter();		
 		this.store.load();
 		
-		t = this.dockedItems.items[2];
-		t.items.items[5].setValue(null);
+		searchBox = this.getToolBarItemByName(this, 'searchField');
+		if (searchBox) {
+			searchBox.setValue(null);
+		}
 	},
 	
 	onTextFieldChange: function(self) {
-		console.log('TEST onTextFieldChange');
-		
 		this.store.clearFilter();
 				
 		this.store.filter({
@@ -234,6 +297,43 @@ Ext.define('moneta.widgets.SmartGrid',
 	
 	handleEditField: function(editor, e, eOpts) {
 		console.log('[SmartGrid] handleEditField');
+	},
+	
+	checkTagFilter: function() {
+		var me = this;
+		if ( (!Ext.isDefined(me.enableFilterByTag) || me.enableFilterByTag != true) ) 
+		{		
+			return;
+		}
+		
+		var toolbar = me.getToolbar(me);
+		toolbar.items.add(Ext.create('Ext.toolbar.Fill'));
+		toolbar.items.add(Ext.create('Ext.toolbar.TextItem', {text: 'Tag Filter'}));	
+		toolbar.items.add(Ext.create('moneta.widgets.SmartComboBox', {
+			name: 'tagFilter',
+			hideLabel: true,
+			width: 200,
+			fields: ['name','name'], 
+			url: moneta.Globals.lists.LIST_TAGS, 
+			valueField: 'name', 
+			displayField: 'name',
+			allowBlank: false,
+
+			listeners: {
+				change: function(field, e) {
+					me.onTagFilterChange(this);
+				}
+			}
+		}));
+		toolbar.items.add(Ext.create('Ext.Button', {
+			 tooltip: 'Clear Filter',	
+			 icon: 'icons/dialog_cancel.png',
+			 listeners: {
+				click: function(self, e) {
+					me.onTagFilterReset(this);
+				}
+			 }
+		}));
 	},
 	
 	checkSearch: function() {

@@ -1,6 +1,8 @@
 /* patch for border in frame panel */
 .x-window-body-default { background: 0; }
 
+/* patch for combobox button size */
+.x-toolbar-item .x-form-trigger { height: 22px;}
 
 /* custom icons */
 .x-tool-cancel{left: 0; background-image: url('../icons/clear.png') !important;}

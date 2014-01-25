@@ -91,7 +91,7 @@ CREATE TABLE `activities` (
 -- ----------------------------------------------------------------------------
 DROP FUNCTION IF EXISTS `createTag`;
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` FUNCTION `createTag`(tagName varchar(64)) RETURNS int(11)
+CREATE FUNCTION `createTag`(tagName varchar(64)) RETURNS int(11)
 BEGIN
   DECLARE retval INT;
   DECLARE cur1 CURSOR FOR select id FROM tags where name = tagName;
