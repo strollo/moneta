@@ -72,7 +72,7 @@ class MonetaDB {
 		mysql_close($link);
 	}
 	
-	static function executeQuery($query, $traceLog=True) {
+	static function executeQuery($query, $traceLog=False) {
 		$errMsg = null;		
 		$db = MonetaDB::connect();
 		if ($traceLog) {

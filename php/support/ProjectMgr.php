@@ -20,7 +20,7 @@ include_once $BASEPATH . '/support/FileMgr.php';
 
 class ProjectMgr {	
 	public static $log;
-	public static $showQueries = true;
+	public static $showQueries = False;
 	const BACKUP_EXTENSION = '.mon';
 	
 	static function init()

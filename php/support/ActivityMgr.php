@@ -82,6 +82,10 @@ class ActivityMgr {
 		if (!is_null($type)) {
 			$query = $query . " WHERE type=" . $type;
 			$hasWhere = true;
+		} else {
+			// don't show in bank accounts the entries that have not already been reconciled
+			$query = $query . " WHERE type NOT IN (SELECT id FROM activity_types where (from_sign = '=' or to_sign = '=')) ";
+			$hasWhere = true;
 		}
 		if (!is_null($from_acct)) {
 			if (!$hasWhere) {
@@ -193,6 +197,10 @@ class ActivityMgr {
 		$errMsg = null;
 		if (!is_null($type)) {
 			$query = $query . " WHERE type=" . $type;
+			$hasWhere = true;
+		} else {
+			// don't show in bank accounts the entries that have not already been reconciled
+			$query = $query . " WHERE type NOT IN (SELECT id FROM activity_types where (from_sign = '=' or to_sign = '=')) ";
 			$hasWhere = true;
 		}
 		if (!is_null($from_acct)) {
