@@ -26,6 +26,15 @@ class ActivityMgr {
 		}
 	}
 	
+	static function isReconciliationAcct($acctType) {
+		$query = "SELECT has_reconciliation FROM account_types where id='" . $acctType . "'";
+		$result = ProjectMgr::executeQuery($query);
+		if ($row = mysql_fetch_array($result)) {
+			$retval = $row['has_reconciliation'];
+		}
+		return $retval;
+	}
+	
 	static function getAllowedAccounts($type, $from = true) {
 		self::$log->info('getActivityTypes');
 		$query = null;
@@ -83,9 +92,11 @@ class ActivityMgr {
 			$query = $query . " WHERE type=" . $type;
 			$hasWhere = true;
 		} else {
-			// don't show in bank accounts the entries that have not already been reconciled
-			$query = $query . " WHERE type NOT IN (SELECT id FROM activity_types where (from_sign = '=' or to_sign = '=')) ";
-			$hasWhere = true;
+			if (!ActivityMgr::isReconciliationAcct($group_id)) {
+				// don't show in bank accounts the entries that have not already been reconciled
+				$query = $query . " WHERE type NOT IN (SELECT id FROM activity_types where (from_sign = '=' or to_sign = '=')) ";
+				$hasWhere = true;
+			}
 		}
 		if (!is_null($from_acct)) {
 			if (!$hasWhere) {
@@ -199,9 +210,11 @@ class ActivityMgr {
 			$query = $query . " WHERE type=" . $type;
 			$hasWhere = true;
 		} else {
-			// don't show in bank accounts the entries that have not already been reconciled
-			$query = $query . " WHERE type NOT IN (SELECT id FROM activity_types where (from_sign = '=' or to_sign = '=')) ";
-			$hasWhere = true;
+			if (!ActivityMgr::isReconciliationAcct($group_id)) {
+				// don't show in bank accounts the entries that have not already been reconciled
+				$query = $query . " WHERE type NOT IN (SELECT id FROM activity_types where (from_sign = '=' or to_sign = '=')) ";
+				$hasWhere = true;
+			}
 		}
 		if (!is_null($from_acct)) {
 			if (!$hasWhere) {
