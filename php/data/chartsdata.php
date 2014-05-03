@@ -30,6 +30,13 @@ function buildStockNetGross($req) {
 	);
 }
 
+
+function InOutProfitPerYear($req) {
+	JSON::sendJSONResult($req, 
+		ChartMgr::InOutProfitPerYear()
+	);
+}
+
 if ((!isset($_GET) || !isset($_GET['graphT'])) || $_GET['graphT'] == 'chart') {
 	buildChartData($_GET);
 } else if ($_GET['graphT'] === 'stock') {
@@ -37,6 +44,8 @@ if ((!isset($_GET) || !isset($_GET['graphT'])) || $_GET['graphT'] == 'chart') {
 	buildStockData($_GET);
 } else if ($_GET['graphT'] == 'stocknetgross') {
 	buildStockNetGross($_GET);
+} else if ($_GET['graphT'] == 'profitperyear') {
+	InOutProfitPerYear($_GET);
 } else if ($_GET['graphT'] == 'incrementalprofits') {
 	JSON::sendJSONResult($_GET, ChartMgr::getIncrementalProfits());
 }

@@ -26,6 +26,15 @@ class ActivityMgr {
 		}
 	}
 	
+	static function getAccountType($acctID) {
+		$query = "SELECT type FROM accounts where id='" . $acctID . "'";
+		$result = ProjectMgr::executeQuery($query);
+		if ($row = mysql_fetch_array($result)) {
+			$retval = $row['type'];
+		}
+		return $retval;
+	}
+	
 	static function isReconciliationAcct($acctType) {
 		$query = "SELECT has_reconciliation FROM account_types where id='" . $acctType . "'";
 		$result = ProjectMgr::executeQuery($query);
@@ -74,6 +83,7 @@ class ActivityMgr {
 		$to_acct = null;
 		$group_id = null;
 		$filters = null;
+		$in_out_account = null;
 	
 		if (isset($get)) {
 			$type = Utils::getParam($get, 'type') or null;
@@ -81,7 +91,10 @@ class ActivityMgr {
 			$in_out_account = Utils::getParam($get, 'account') or null;
 			$to_acct = Utils::getParam($get, 'to') or null;
 			$filters = Utils::getParam($get, 'filter') or null;
-			$group_id = Utils::getParam($get, 'acct_group') or null;
+			$group_id = Utils::getParam($get, 'acct_group');
+			if (is_null($group_id)) {
+				$group_id = ActivityMgr::getAccountType($in_out_account);
+			}
 		}
 	
 		// PREPARES THE QUERY with filters
@@ -173,19 +186,23 @@ class ActivityMgr {
 		$sortCol = null;
 		$sortDir = null;
 		$filters = null;
+		$in_out_account = null;
 	
 		if (isset($get)) {
 			$type = Utils::getParam($get, 'type') or null;
 			$from_acct = Utils::getParam($get, 'from') or null;
 			$in_out_account = Utils::getParam($get, 'account') or null;
 			$to_acct = Utils::getParam($get, 'to') or null;
-			$group_id = Utils::getParam($get, 'acct_group') or null;
+			$group_id = Utils::getParam($get, 'acct_group');
+			if (is_null($group_id)) {
+				$group_id = ActivityMgr::getAccountType($in_out_account);
+			}
 			$filters = Utils::getParam($get, 'filter') or null;
 			$start = Utils::getParam($get, 'start') or null;
 			$limit = Utils::getParam($get, 'limit') or null;
 			if (Utils::getParam($get, 'sort') != null) {
 				$sorter = JSON::fromString(Utils::getParam($get, 'sort'));
-				self::$log->info('Sorter: ' . $sorter);
+
 				if (is_string($sorter)) {
 					self::$log->info('STRING');
 					$sortCol = Utils::getParam($get, 'sort');

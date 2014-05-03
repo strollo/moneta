@@ -24,6 +24,31 @@ class ChartMgr {
 		}
 	}
 	
+	static function InOutProfitPerYear() {
+		self::$log->info('InOutProfitPerYear');
+		$query = "select IN_year AS Year, IN_value, OUT_value, IN_value-OUT_value AS Profits  from " .
+			"(" .
+			"select year(date) AS IN_year, sum(activities.amount) AS IN_value " .
+			"FROM activities where activities.`from` IN (select id from accounts where type=4) group by year(date) " .
+			") as INCOMINGS, " .
+			"( " .
+			"select year(date) AS OUT_year, sum(activities.amount) AS OUT_value " .
+			"FROM activities where activities.`to` IN (select id from accounts where type=5) group by year(date) " .
+			") as OUTGOINGS " .
+			"where IN_year=OUT_year " .
+			"order by IN_year ";
+		$result = ProjectMgr::executeQuery($query);
+		$retval = array();
+		$rows = array();
+		while($r = mysql_fetch_assoc($result)) {
+			$rows['data'][] = $r;
+		}
+		//$retval['label'] = 'Profits per year';
+		$retval= $rows['data'];
+
+		return $retval;
+	}
+	
 	static function getStockData($activityType=2) {
 		self::$log->info('getByTag');
 		$query = "select UNIX_TIMESTAMP(date)*1000 as name, activities.amount as value FROM activities where type=" . $activityType . " order by date";
