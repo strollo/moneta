@@ -19,3 +19,9 @@ Main Features:
 
 A brief guide can be found at:
 http://monetademo.altervista.org/index.html
+
+A DEMO can be found at:
+http://162.244.26.102/moneta/index.php
+Use credentials: demo/demo and activate the project demo on enter. 
+
+And enjoy ;)
