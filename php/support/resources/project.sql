@@ -210,7 +210,7 @@ INSERT INTO `account_types` (`id`,`name`,`has_reconciliation`,`hidden`,`icon`,`m
  (2,'Credit Cards',1,0,'ico-accounts-creditcards','default','Credit Cards that need reconciliation'),
  (4,'Incoming Accounts',0,0,'ico-accounts-incomes','acct-incomes','Accounts from which money is received... (e.g. Gifts, Salary...)'),
  (5,'Outgoing Accounts',0,0,'ico-accounts-outgoings','acct-outgoings','Accounts to which money is moved as exits (e.g. Expenses)'),
- (6,'Persons',1,0,'ico-accounts-persons','acct-persons','Persons to which have loans or debts');
+ (6,'Persons',0,0,'ico-accounts-persons','acct-persons','Persons to which have loans or debts');
  
 INSERT INTO `activity_types` (`id`,`name`,`description`,`from_sign`,`to_sign`,`icon`) VALUES 
  (1,'Incomes','Incoming money from banks or other sources to banks, debt cards ...','+','+','ico-accounts-incomes'),
