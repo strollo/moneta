@@ -153,6 +153,7 @@ Ext.define("moneta.widgets.MainMenu",
 					{ text: 'New Operation', icon: 'icons/add_entry.png', handler: function(){ createEntry(); } },
 					'-',
 					{ text: 'Reconciliations', icon: 'icons/reconciliation.png', handler: function(){ showReconciliations(); }},
+					{ text: 'Duplicates', icon: 'icons/duplicates.png', handler: function(){ showDuplicates(); }},
 					'-',
 					{ text: 'Manage Tags', handler: function(){ showTags(); }, icon: 'icons/tags.png'},
 				]

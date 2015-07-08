@@ -373,6 +373,25 @@ class ActivityMgr {
 		return $rows['data'];
 	}
 	
+	static function getDuplicates($get = null) {
+		self::$log->info('getDuplicates');
+		
+		$start = null;
+		$limit = null;
+		$sortCol = null;
+		$sortDir = null;
+		
+		$reconciliationType = 7;
+		$query = "select A.* from activity_view A , activity_view B where A.`date` =  B.`date` AND A.`from` = B.`from` AND A.`to` = B.`to` AND A.amount = B.amount AND A.id <> B.id ORDER BY A.`date` DESC";
+		$result = ProjectMgr::executeQuery($query);
+		$rows = array();
+		$rows['data'] = array();
+		while($r = mysql_fetch_assoc($result)) {
+			$rows['data'][] = $r;
+		}
+		return $rows['data'];
+	}	
+	
 	static function delete($param) {
 		self::$log->info('Delete: ' . $param->id);
 		$query = "delete from " . self::$tableName . " where id=" . Utils::strTrim($param->id);

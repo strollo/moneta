@@ -38,6 +38,7 @@
 		<script type="text/javascript" src="js/moneta/actions/showStocks.js"></script>	
 		<script type="text/javascript" src="js/moneta/actions/showNetGrossStock.js"></script>	
 		<script type="text/javascript" src="js/moneta/actions/showIncrementalProfits.js"></script>	
+		<script type="text/javascript" src="js/moneta/actions/showDuplicates.js"></script>
 		<script type="text/javascript" src="js/moneta/actions/showReconciliations.js"></script>	
 		<script type="text/javascript" src="js/moneta/actions/createForm.js"></script>	
 		<script type="text/javascript" src="js/moneta/actions/createEditForm.js"></script>	

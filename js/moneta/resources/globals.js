@@ -162,6 +162,7 @@ Ext.define("moneta.Globals.data", {
 	DATA_CHART: PHP_BASE_DIR + '/data/chartsdata.php',
 	DATA_ENTRY_DETAILS: PHP_BASE_DIR + '/data/entries.php',
 	DATA_RECONCILIATION_DETAILS: PHP_BASE_DIR + '/data/reconciliations.php',
+	DATA_DUPLICATES: PHP_BASE_DIR + '/data/duplicates.php',
 	DATA_USERS: PHP_BASE_DIR + '/data/users.php',
 	DATA_TAGS: PHP_BASE_DIR + '/data/tags.php',
 	DATA_PROJECTS: PHP_BASE_DIR + '/data/projects.php',
