@@ -23,7 +23,9 @@ A brief guide can be found at:
 http://monetademo.altervista.org/index.html
 
 A DEMO can be found at:
-*** UPS SORRY CLOUDATCOST REMOVED M (free forever, but not for ever) ACCOUNT ***
+
+*** UPS SORRY CLOUDATCOST REMOVED MY (free forever, but not for ever) ACCOUNT ***
+
 So it will be back available ASAP on other bays...
 
 And enjoy ;)
