@@ -1,5 +1,4 @@
-Moneta - Ext-JS based standalone Web application for personal accounting
-========================================================================
+# Moneta - Ext-JS based standalone Web application for personal accounting
 
 Moneta is a web based graphical accouting software written in ExtJS and uses MySQL as database backend.
 
@@ -8,7 +7,7 @@ Moneta is a web based graphical accouting software written in ExtJS and uses MyS
 Moneta is licensed under GNU GENERAL PUBLIC LICENSE, Version 3.0
 http://gplv3.fsf.org/
 
-Main Features:
+## Main Features
 - Open Source
 - Window based GUI
 - Easy installation: no setup required
@@ -19,8 +18,13 @@ Main Features:
 - Flexible grouping on activities reports on date/tag/source....
 - Support for multiple users, projects and permissions
 
+## Installation instructions
 A brief guide can be found at:
 http://strollo.github.io/moneta/
+
+Alternatively if you want to run on Windows or to skip installation steps, it can be run in a docker container by following the instructions at:
+
+https://github.com/strollo/monetadock
 
 A DEMO can be found at:
 
