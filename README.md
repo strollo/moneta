@@ -18,18 +18,14 @@ http://gplv3.fsf.org/
 - Flexible grouping on activities reports on date/tag/source....
 - Support for multiple users, projects and permissions
 
-## Installation instructions
+## Installation instructions on ubuntu
 A brief guide can be found at:
 http://strollo.github.io/moneta/
+
+## Installing on docker
 
 Alternatively if you want to run on Windows or to skip installation steps, it can be run in a docker container by following the instructions at:
 
 https://github.com/strollo/monetadock
-
-A DEMO can be found at:
-
-*** UPS SORRY CLOUDATCOST REMOVED MY (free forever, but not for ever) ACCOUNT ***
-
-So it will be back available ASAP on other bays...
 
 And enjoy ;)
