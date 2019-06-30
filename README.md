@@ -20,7 +20,7 @@ Main Features:
 - Support for multiple users, projects and permissions
 
 A brief guide can be found at:
-http://monetademo.altervista.org/index.html
+http://strollo.github.io/moneta/
 
 A DEMO can be found at:
 
