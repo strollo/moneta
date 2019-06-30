@@ -3,7 +3,7 @@ Moneta - Ext-JS based standalone Web application for personal accounting
 
 Moneta is a web based graphical accouting software written in ExtJS and uses MySQL as database backend.
 
-<img src="http://monetademo.altervista.org/screens/screen1.png" />
+<img src="docs/screens/screen1.png" />
 
 Moneta is licensed under GNU GENERAL PUBLIC LICENSE, Version 3.0
 http://gplv3.fsf.org/
